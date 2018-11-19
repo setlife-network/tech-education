@@ -1,7 +1,7 @@
 [Back to Home](https://setlife.network)
 
 ## Curriculum Overview
--------------
+
 ### Curriculum Ethos
 The following courses were designed with the mindset of helping people understand how technology can be used for social good. In today's age, exponential developments in technology are presenting just as many amazing innovations as alarming concerns. It becomes the individual's responsibility to address them, educate themselves about the science of the matter, and collaborate with others to continuously solve these problems.
 
