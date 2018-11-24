@@ -33,7 +33,7 @@ Let's say you meet a new friend, and you ask them for their phone number so you 
 
 If this sounds simple to you, that’s because it is something you do automatically every day without thinking too much about how you would describe it. Conceptually, everything we see happens in one continuous sequence as we feel time moving forwards from the past to the future. This is a natural process that humans have always observed, but we've now been able to replicate this process using computers by writing down and running these lines of _source code_.
 
-<img src="https://user-images.githubusercontent.com/4914611/48970854-db59b600-f011-11e8-85a8-24df9fb435b1.png"/>
+<img src="https://user-images.githubusercontent.com/4914611/48972481-9fcbe580-f02b-11e8-830e-e3b57fcf5da5.jpg"/>
 
 Don't overthink this. It is exactly as simple as it sounds. As you learn more about programming, more advanced nuances to this idea become very important to keep in mind when figuring out what a really long sequence of commands is supposed to be doing.
 
