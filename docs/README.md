@@ -5,6 +5,8 @@
 ### Curriculum Ethos
 The following courses were designed with the mindset of helping people understand how technology can be used for social good. In today's age, exponential developments in technology are presenting just as many amazing innovations as alarming concerns. It becomes the individual's responsibility to address them, educate themselves about the science of the matter, and collaborate with others to continuously solve these problems.
 
+<img width="441" alt="screen shot 2019-01-16 at 4 41 29 pm" src="https://user-images.githubusercontent.com/4914611/51280470-b51b1b80-19ad-11e9-907e-237ad7aa8733.png">
+
 Network effects are the key to navigating a world with such rapidly expanding information access and as such, students should keep a particular learning goal in mind when going through the material by considering the following framework:
 - A **Level 1 Understanding** of a particular topic will let you confidently say to yourself “I get it” and call it a day. You can now recall the material next week or next month and comfortably reaffirm to yourself that you still understand what you had learned
 - A **Level 2 Understanding** indicates a strong enough comprehension that by articulating and explaining the topic you can successfully pass on a Level 1 Understanding of the topic to someone else
