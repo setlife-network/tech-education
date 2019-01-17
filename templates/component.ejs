@@ -1,0 +1,49 @@
+import React from 'react';
+<% if (redux) { -%>
+import { connect } from 'react-redux';
+<% } -%>
+
+<% if (stateless) { -%>
+const <%- name %> = ({ props }) => {
+    return (
+        <div className='<%- name %>'>
+        </div>
+    )
+}
+
+export default <%- name %>
+<% } else if (redux) { -%>
+class <%- name %> extends React.Component {
+    render() {
+        return (
+            <div className='<%- name %>'>
+                <h6><%- name %></h6>
+            </div>
+        );
+    }
+}
+<% } else { -%>
+export default class <%- name %> extends React.Component {
+    render() {
+        return (
+            <div className='<%- name %>'>
+                <h6><%- name %></h6>
+            </div>
+        );
+    }
+}
+<% } -%>
+
+<% if (redux) { -%>
+const mapStateToProps = (state) => {
+    return {
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(<%= name %>);
+<% } -%>
