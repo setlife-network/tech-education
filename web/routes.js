@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Flex from './components/Flex';
-import LandingPage from "./components/LandingPage";
+import LandingPage from './components/LandingPage';
 
 
 /*

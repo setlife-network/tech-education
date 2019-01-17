@@ -1,6 +1,6 @@
 export default {
     // styled-system breakpoints
-    breakpoints: ['600px', '900px', '1200px', '1800px'],
+    breakpoints: ['768px', '1024px', '1366px', '1920px'],
     // breakpoints for Col component and media.js
     devices: {
         mobile: 599,
@@ -19,7 +19,7 @@ export default {
         6: '-2px 0px 10px rgba(0,0,0,0.5)',
         7: '1px 0px 5px rgba(0,0,0,0.65)',
         8: '1px 0px 5px 0px rgba(136,136,136, 0.8)',
-        9: '4px 4px 4px -1px rgba(136,136,136, 0.8)'
+        9: 'inset 0 0 15px 4px rgba(0,0,0,0.5)'
     },
     // Colors (styled-system)
     colors: {
@@ -49,7 +49,7 @@ export default {
         secondaryLight: '#e6ffff',
         secondaryDark: '#82b3c9',
         textPrimary: '#000000',
-        textSecondary: '#000000',
+        textSecondary: '#ffffff',
         accent: '#F93B6A'
     },
     gradients: {
