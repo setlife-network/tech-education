@@ -11,7 +11,8 @@ class Header extends React.Component {
             <Flex
                 className='Header'
                 width='100%'
-                bg={theme.colors.overlay}
+                bg={theme.colors.facebook}
+                style={{ position: 'fixed', top: '0', left: '0', zIndex: '2' }}
             >
                 <h6>Header</h6>
             </Flex>
