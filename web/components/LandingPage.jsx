@@ -40,7 +40,7 @@ export default class LandingPage extends React.Component {
                                 size='1rem'
                                 color={theme.colors.textSecondary}
                             >
-                                {'We`ll teach you the core skills you need to understand the word of technology'}
+                                {'We\'ll teach you the core skills you need to understand the word of technology'}
                             </Text>
                         </Flex>
                     </Flex>
