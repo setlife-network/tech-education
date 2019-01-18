@@ -9,8 +9,15 @@ import Course from './Course';
 
 class SetlifeCourses extends React.Component {
 
-    renderCourses = () => {
-        return courses.map((course) => (<Course key={course.toString()} name={course.name} version={course.version} description={course.description}/>))
+    renderCourses() {
+        return courses.map((course) => (
+            <Course
+                key={course.toString()}
+                name={course.name} 
+                version={course.version}
+                description={course.description}
+            />
+        ))
     }
 
     render() {
