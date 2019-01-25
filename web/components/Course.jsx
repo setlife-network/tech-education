@@ -24,7 +24,8 @@ export default class Course extends React.Component {
                                 size='1.5rem'
                                 align='left'
                                 color={theme.colors.textPrimary}
-                                mx='auto'
+                                ml='1rem'
+                                mr='auto'
                             >
                                 {name}
                             </Text>
@@ -34,8 +35,9 @@ export default class Course extends React.Component {
                                 height='80px'
                                 minWidth='80px'
                                 minHeight='80px'
-                                mx='auto'
-                                my='0.5rem'
+                                mr='50px'
+                                ml='auto'
+                                my='auto'
                                 borderRadius={50}
                                 depth={7}
                             >
@@ -57,7 +59,7 @@ export default class Course extends React.Component {
                         weight='500'
                         size='1rem'
                         align='left'
-                        style={{ whiteSpace: 'pre-line' }}
+                        whiteSpace='pre-line'
                         mx='1rem'
                     >
                         {description}

@@ -6,11 +6,19 @@ import Flex from './Flex';
 import theme from '../styles/theme';
 import Text from './Text';
 import Course from './Course';
+import { COURSES } from '../constants/index';
 
 class SetlifeCourses extends React.Component {
 
-    renderCourses = () => {
-        return courses.map((course) => (<Course key={course} name={course.name} version={course.version} description={course.description}/>))
+    renderCourses() {
+        return COURSES.map((course) => (
+            <Course
+                key={course.toString()}
+                name={course.name} 
+                version={course.version}
+                description={course.description}
+            />
+        ))
     }
 
     render() {
@@ -34,19 +42,6 @@ class SetlifeCourses extends React.Component {
         );
     }
 }
-
-// TODO Remove mock data and make a course entity
-const courses = [{
-    name: 'Fundamentals of Software',
-    version: 'Version 1.0',
-    description: 'This course is best suited for newcomers to the world of programing.\n\n                            In Part 1, student will establish a foundational understanding of the basic logical principles that govern the behavior of a program\n\n                            Part 2 will feature actual coding  and language-specific syntax and should only be introduced after the fundamental foundation has been set. This will help students reinforce these principles in practice and start building  a familiarity for reading and writing source code.'
-},
-{
-    name: 'Discovering & Verifying Digital Information',
-    version: 'Coming Soon',
-    description: ''
-}
-]
 
 const mapStateToProps = (state) => {
     return {
