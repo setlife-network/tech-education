@@ -110,7 +110,7 @@ The peer-graded evaluation will attempt to assess how many students were able to
 
 ### Session 14
 
-- Workshop 3: Wikipedia Deep Dive
+- Workshop 3: Search Tools Deep Dive
 
 ### Session 15
 
