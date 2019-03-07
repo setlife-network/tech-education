@@ -13,12 +13,11 @@ export default class Course extends React.Component {
             <>
                 <Flex>
                     <Card
-                        depth={9}
                         width='100%'
                         bg={theme.colors.background}
                         p='auto'
                     >
-                        <Flex row>
+                        <Flex row my={'2rem'} mx={'1rem'}>
                             <Text
                                 weight='700'
                                 size='1.5rem'
@@ -35,11 +34,11 @@ export default class Course extends React.Component {
                                 height='80px'
                                 minWidth='80px'
                                 minHeight='80px'
-                                mr='50px'
+                                mr={['25px', '50px']}
                                 ml='auto'
                                 my='auto'
                                 borderRadius={50}
-                                depth={7}
+                                depth={3}
                             >
                                 <Text align='center' color={theme.colors.textSecondary}>
                                     {version}
@@ -49,22 +48,27 @@ export default class Course extends React.Component {
                     </Card>
                 </Flex>
 
-                <Flex
-                    width='100%'
-                    center
-                    bg={theme.colors.charcoal}
+                <Card
+                    depth={7}
                 >
-                    <Text
-                        color={theme.colors.textSecondary}
-                        weight='500'
-                        size='1rem'
-                        align='left'
-                        whiteSpace='pre-line'
-                        mx='1rem'
+                    <Flex
+                        width='100%'
+                        center
+                        bg={theme.colors.charcoal}
                     >
-                        {description}
-                    </Text>
-                </Flex>
+                        <Text
+                            color={theme.colors.textSecondary}
+                            weight='500'
+                            size='1rem'
+                            align='left'
+                            whiteSpace='pre-line'
+                            my='2rem'
+                            mx='2rem'
+                        >
+                            {description}
+                        </Text>
+                    </Flex>
+                </Card>
 
             </>
         );

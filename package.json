@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf node_modules && rm -rf public",
-    "predev": "mkdir public",
+    "predev": "mkdir -p public",
     "dev": "cross-os dev:os",
     "dev:os": {
       "darwin": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --config config/webpack.config.dev.js",

@@ -37,13 +37,22 @@ const Content = styled.div`
 class Header extends React.Component {
     render() {
         return (
-            <Flex
-                className='Header'
+            <Card
+                depth={2}
                 width='100%'
-                bg={theme.colors.facebook}
-                style={{ position: 'fixed', top: '0', left: '0', zIndex: '2' }}
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    zIndex: 2
+                }}
             >
-                <Content>
+                <Flex
+                    row
+                    alignItems='center'
+                    bg={theme.colors.facebook}
+                >
+                    {/* <Content>
                     <Card my='auto' mx='0.5rem'>
                         <Text color={theme.colors.textSecondary}>{'Curriculum'}</Text>
                     </Card>
@@ -53,8 +62,18 @@ class Header extends React.Component {
                     <Card my='auto' ml='0.5rem' mr='1rem'>
                         <Text color={theme.colors.textSecondary}>{'Home'}</Text>
                     </Card>
-                </Content>
-            </Flex>
+                </Content> */}
+                    <Card>
+                        <Text
+                            mx='1rem'
+                            color={theme.colors.textSecondary}
+                        >
+                            {'Home'}
+                        </Text>
+                    </Card>
+                </Flex>
+            </Card>
+            
         );
     }
 }

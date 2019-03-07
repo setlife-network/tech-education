@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Flex from './components/Flex';
-import LandingPage from './components/LandingPage';
+import CurriculumEthosPage from './pages/CurriculumEthosPage';
+import LandingPage from './pages/LandingPage';
 
 
 /*
@@ -16,6 +17,7 @@ export default (
     <Flex className='routes-container' width='100vw'>
         <Switch>
             <Route exact path='/' component={LandingPage} />
+            <Route path='/curriculum-ethos' component={CurriculumEthosPage} />
         </Switch>
     </Flex>
 );

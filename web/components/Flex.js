@@ -60,6 +60,8 @@ const Flex = styled(Box)`
     ${is('order')`
         order: ${p => p.order};
     `}
+
+    
 `
 
 Flex.propTypes = {

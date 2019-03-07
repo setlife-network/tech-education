@@ -37,7 +37,7 @@ Card.propTypes = {
     ...backgroundSize.propTypes,
     ...backgroundPosition.propTypes,
     ...backgroundRepeat.propTypes,
-    depth: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    depth: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7])
 }
 
 export default Card 

@@ -11,15 +11,13 @@ export default {
     },
     // Box shadows (used in Card component)
     shadows: {
-        1: '0px 1.5px 8px rgba(0,0,0,0.07)',
-        2: '0px 2px 11px rgba(0,0,0,0.10)',
-        3: '0px 3px 16px rgba(0,0,0,0.12)',
-        4: '0px 4px 21px rgba(0,0,0,0.14)',
-        5: '0px 5px 25px rgba(0,0,0,0.14)',
-        6: '-2px 0px 10px rgba(0,0,0,0.5)',
-        7: '1px 0px 5px rgba(0,0,0,0.65)',
-        8: '1px 0px 5px 0px rgba(136,136,136, 0.8)',
-        9: 'inset 0 0 15px 4px rgba(0,0,0,0.5)'
+        1: '0px 1.5px 8px rgba(0,0,0,0.47)',
+        2: '0px 2px 11px rgba(0,0,0,0.50)',
+        3: '0px 3px 16px rgba(0,0,0,0.52)',
+        4: '0px 4px 21px rgba(0,0,0,0.54)',
+        5: '0px 5px 25px rgba(0,0,0,0.54)',
+        6: '0px 5px 35px rgba(0,0,0,0.54)',
+        7: '0px 5px 45px rgba(0,0,0,0.54)',
     },
     // Colors (styled-system)
     colors: {
@@ -38,7 +36,7 @@ export default {
         yellow: '#F5D76E',
         red: '#F93B6A',
         facebook: '#32529F',
-        overlay: 'rgba(0,0,0,0.5)',
+        overlay: 'rgba(0,0,0,0.65)',
         transparent: 'transparent',
         bottomColor: '#3B3B3B',
 
