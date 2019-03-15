@@ -1,1 +1,8 @@
 theme: jekyll-theme-slate
+title: Tech Education
+description: Learn about technology
+url: https://education.setlife.network
+author: The SetLife Network
+plugins:
+  - jekyll-seo-tag
+google_analytics: UA-136322439-1
