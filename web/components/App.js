@@ -19,16 +19,18 @@ class App extends React.Component {
         const { location } = this.props;
         return (
             <Flex center column bg={theme.colors.grey}>
-                <Flex height='6vh' width='100%'>
+                <Flex width='100%'>
                     <Header/>
                 </Flex>
                 <Flex
-                    height='auto'
+                    height={[
+                        'auto',
+                        // 'auto',
+                        // '768px',
+                        // '768px'
+                    ]}
                     width={[
                         1, // 100% below smallest breakpoint
-                        3 / 4, // 75% next breakpoint and up
-                        5 / 8, // 62.5% next breakpoint and up
-                        1 / 2, // 50% next breakpoint and up
                     ]}
                 >
                     {routes}
