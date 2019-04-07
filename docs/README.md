@@ -36,3 +36,6 @@ This course provides key insights for those who have specialized their skillset 
 
 #### Cybersecurity, Blockchains, & Trusted Computing (CBTC)
 Part 1 will teach basic ways to assess exposure to common risks that affect anyone using the software of the Internet. Part 2 will dive deeper into the more specific vulnerabilities currently present in critical components of Internet infrastructure, introducing blockchain as a networking protocol and outlining the general principles that govern any trusted relationships required for different kinds of computing.
+
+-------------
+For more information, send us an email at contact@setlife.network
