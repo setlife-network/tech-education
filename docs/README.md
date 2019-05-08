@@ -1,5 +1,9 @@
 [Back to Home](https://setlife.network)
 
+## Interactive Course
+
+For a more interactive course experience, [click here](https://tech-education.teachable.com/) to take this course on Teachable.com
+
 ## Curriculum Overview
 
 ### Curriculum Ethos
