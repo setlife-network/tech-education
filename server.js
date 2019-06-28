@@ -26,8 +26,4 @@ app.get('*', function(req, res, next) {
 //message when the server is running
 app.listen(port, function() {
     console.log('SetLife-ReactWithApi: Server running on port ' + port);
-    // require('./api/handlers/github').fetchRepo({
-    //     url: 'https://github.com/bitcoin/bitcoin'
-    //     // url: 'https://github.com/setlife-network/tech-education'
-    // })
 });
