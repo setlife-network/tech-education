@@ -71,5 +71,5 @@ app.get('/api/fetchCourse/:id', (req,res) => {
 //message when the server is running
 app.listen(port, function() {
     console.log('SetLife-ReactWithApi: Server running on port ' + port);
-    
+
 });
