@@ -1,0 +1,12 @@
+{
+  "app.js": "/app.bundle.js",
+  "vendor.js": "/vendor.bundle.js",
+  "SetBlockHeading2.png": "/2555675a7cd23481341e2e6adabac731.png",
+  "app.bundle.js.gz": "/app.bundle.js.gz",
+  "index.html": "/index.html",
+  "index.html.gz": "/index.html.gz",
+  "launchericon_192x192.png": "/launchericon_192x192.png",
+  "launchericon_512x512.png": "/launchericon_512x512.png",
+  "manifest.json": "/manifest.json",
+  "vendor.bundle.js.gz": "/vendor.bundle.js.gz"
+}
