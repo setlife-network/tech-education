@@ -4,7 +4,8 @@ var path = require('path'); // path module to work with directories and files
 var fs = require('fs'); //files module
 var moment = require('moment'); //npm install moment -- for dates and times
 const mysql = require('mysql');
-require('/api/config/credentials.js')
+const { MYSQL }= require('./config/credentials');
+
 
 var app = express(); //call express
 
@@ -30,82 +31,79 @@ app.get('*', function(req, res, next) {
 });
 
 //declaration enviroment variables:
-var host= process.env.MYSQL_DB_HOST;
-var username= process.env.MYSQL_DB_USERNAME;
-var password= process.env.MYSQL_DB_PASSWORD;
-var db= process.env.MYSQL_DB_NAME;
+var host= MYSQL.DB_HOST;
+var username= MYSQL.DB_USERNAME;
+var password= MYSQL.DB_PASSWORD;
+var db= MYSQL.DB_NAME;
 
-var connection = mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit:10,
     host: host,
     user: username,
     password: password,
     database: db, 
-    port: 3000,
-    connectTimeout  : 60 * 60 * 1000,
-    acquireTimeout  : 60 * 60 * 1000,
-    timeout         : 60 * 60 * 1000,
-
 });
-
-connection.query("SELECT * FROM Courses", function(error, results, fields){
-    if(error) throw error;
-    res.json(results);
-    console.log('Probando');
-});
-
-connection.getConnection(function (error, connection){
-    if(error){
-        console.log('not connected');
-        throw error;
-    }
-    return connection
-});
-
 
 //testing routes for the issue 28
 app.get('/api/fetchCourses', (req,res) => {
     console.log('fetchCourses')
-    /*connection.getConnection(function(error, connection){
-       if(error){
+    pool.getConnection(function(error, connection){
+        if(error){
         console.log('Error!!');
         connection.release();
-       } else {*/
-           console.log('Connected!!!')
-           connection.query('SELECT * FROM Courses', function (error, rows, fields){
-            console.log('devuelve datos')
-            res.json(rows)
-            connection.release()
-           })
+       } else {
+            console.log('Connected!!!')
+            connection.query('SELECT * FROM Courses', function (error, rows, fields){
+                console.log('devuelve datos')
+                res.json(rows)
+                connection.release()
+            })
        
-    });
+        }
+    })  
 
-
-    
+})   
 
 
 app.get('/api/fetchCourse/:id', (req,res) => {
     console.log('Fetching courses by id' + req.params.id)
-
-    const connection= getConnection()
-    const courseId = req.params.id
-    const queryString ="SELECT * FROM Courses WHERE id = ?"
-    
-    
-   
-            connection.query(queryString, [courseId], (err, rows, fields) =>  {
-                res.json(rows)
-            
-          
-          
-            })
+    pool.getConnection(function(error, connection){
+        if(error){
+        console.log('Error!!');
+        connection.release();
+       } else {
+        console.log('Succes')
+        const courseId = req.params.id
+        const queryString ="SELECT * FROM Courses WHERE id = ?"
+        connection.query(queryString, [courseId], (err, rows, fields) =>  {
+            res.json(rows)
+            connection.release();
+        })   
         
-        }),
+    }
       
-   //}
-//})
+   })
+})
   
-    
+app.get('/api/fetchTopics/', (req,res) => {
+    console.log('Fetching topics by course id' + req.params.id)
+    pool.getConnection(function(error, connection){
+        if(error){
+        console.log('Error!!');
+        connection.release();
+       } else {
+        console.log('Succes')
+        const courseId = req.params.id
+        const queryString ="SELECT * FROM Topics AS T, Courses AS C WHERE T.id = C.id";
+        connection.query(queryString, [courseId], (err, rows, fields) =>  {
+            res.json(rows)
+            connection.release();
+        })   
+        
+    }
+      
+   })
+})   
 
 
 
@@ -113,5 +111,5 @@ app.get('/api/fetchCourse/:id', (req,res) => {
 //message when the server is running
 app.listen(port, function() {
     console.log('SetLife-ReactWithApi: Server running on port ' + port);
-
+    
 });
