@@ -60,6 +60,7 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.1.0",
     "request-promise": "^4.2.2",
+    "socket.io": "^2.2.0",
     "styled-components": "^4.0.0-beta.1",
     "styled-icons": "^3.7.0",
     "styled-is": "^1.1.5",
