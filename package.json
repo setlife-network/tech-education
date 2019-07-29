@@ -14,7 +14,8 @@
     },
     "lint": "eslint ./web",
     "prebuild": "rm -rf public && mkdir public",
-    "build": "node ./node_modules/webpack/bin/webpack.js -p --config config/webpack.config.prod.js"
+    "build": "node ./node_modules/webpack/bin/webpack.js -p --config config/webpack.config.prod.js",
+    "start": "nodemon server"
   },
   "bin": {
     "setlife": "./setlife.js"
@@ -99,6 +100,7 @@
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.2",
+    "nodemon": "^1.19.1",
     "postcss-loader": "^3.0.0",
     "react-addons-css-transition-group": "^15.4.1",
     "react-fontawesome": "^1.5.0",
