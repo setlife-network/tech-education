@@ -34,154 +34,53 @@ app.get('*', function (req, res, next) {
     });
 });
 
-//declaration enviroment variables:
-var host = MYSQL.DB_HOST;
-var username = MYSQL.DB_USERNAME;
-var password = MYSQL.DB_PASSWORD;
-var db = MYSQL.DB_NAME;
-
-var pool = mysql.createPool({
-    connectionLimit: 10,
-    host: host,
-    user: username,
-    password: password,
-    database: db,
-});
-
 //chat 
 app.get('/api/chat/', function (req, res) {
     console.log("dentro del chat")
     res.sendFile(__dirname + '/index.html');
-   
+
 });
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('disconnect', function(){
-      console.log('user disconnected');
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
     });
 });
 
-io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
+io.on('connection', function (socket) {
+    socket.on('chat message', function (msg) {
+        console.log('message: ' + msg);
     });
-  });
+});
 
+const apiModules = require('./api/modules')
 
 //testing routes for the issue 28
-app.get('/api/fetchCourses', (req, res) => {
-    console.log('fetchCourses')
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log('Connected!!')
-            connection.query('SELECT * FROM Courses', function (error, rows, fields) {
-                console.log('devuelve datos')
-                res.json(rows)
-                connection.release()
-            })
+//ROUTES FOR COURSES
+app.get('/api/fetchCourses', apiModules.crud.fetchCourses)
+app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
+app.put('/api/courses/', apiModules.crud.Courses)
+app.post('/api/courses/', apiModules.crud.Courses)
+app.patch('/api/courses/', apiModules.crud.Courses)
+app.delete('/api/courses/', apiModules.crud.Courses)
 
-        }
-    })
+//TOPICS
+app.get('/api/fetchTopics/', apiModules.crud.fetchTopics)
+app.post('/api/topics/', apiModules.crud.Topics)//issues with "order"
+app.patch('/api/topics/', apiModules.crud.Topics)
+app.delete('/api/topics', apiModules.crud.Topics)
 
-})
+//USERS read without hashed_password
+app.get('/api/fetchUsers/', apiModules.crud.fetchUsers)
+app.post('/api/users/', apiModules.crud.Users)
+app.patch('/api/users/', apiModules.crud.Users)
+app.delete('/api/users/', apiModules.crud.Users)
 
-
-app.get('/api/fetchCourse/:id', (req, res) => {
-    console.log('Fetching courses by id' + req.params.id)
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log('Succes')
-            const courseId = req.params.id
-            const queryString = "SELECT * FROM Courses WHERE id = ?"
-            connection.query(queryString, [courseId], (err, rows, fields) => {
-                res.json(rows)
-                connection.release();
-            })
-
-        }
-
-    })
-})
-
-app.get('/api/fetchTopics/', (req, res) => {
-    console.log('Fetching topics by course id' + req.params.id)
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log('Succes')
-            const courseId = req.params.id
-            var queryString = "SELECT * FROM Topics";
-            connection.query(queryString, [courseId], (err, rows, fields) => {
-                res.json(rows)
-                connection.release();
-            })
-        }
-    })
-})
-//PUT route
-app.put('/api/course/update', (req, res) => {
-    console.log("inside PUT")
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log("dentro de PUT")
-            connection.query('UPDATE Courses SET title= ?, description=?, current_version=?, youtube_link=? WHERE id=?', [req.body.title, req.body.description, req.body.current_version, req.body.youtube_link, req.body.id], (err, rows) => {
-                res.end(JSON.stringify(rows));
-            })
-        }
-    })
-
-})
-//POST route
-app.post('/api/course', (req, res) => {
-    console.log("inside post")
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log("dentro de post")
-            connection.query('INSERT INTO Courses(id, title, description, current_version, youtube_link) values(?,?,?,?,?)', [req.body.id, req.body.title, req.body.description, req.body.current_version, req.body.youtube_link], (err, rows) => {
-                res.end(JSON.stringify(rows));
-            })
-        }
-    })
-
-
-})
-
-//DELETE route
-app.delete('/api/fetchCourses/delete/:id', (req, res) => {
-    console.log("inside delete")
-    pool.getConnection(function (error, connection) {
-        if (error) {
-            console.log('Error!!');
-            connection.release();
-        } else {
-            console.log('Succes')
-            const id = req.params.id
-            var queryString = "DELETE FROM Courses WHERE id = ?";
-            connection.query(queryString, [id], (err, rows, fields) => {
-                res.end(JSON.stringify(rows));
-                console.log("dentro query")
-                connection.release();
-            })
-        }
-    })
-
-})
-
-
+//FEEDBACK
+app.get('/api/fetchFeedback/', apiModules.crud.fetchFeedback)
+app.post('/api/feedback/', apiModules.crud.Feedback)
+app.patch('/api/feedback/', apiModules.crud.Feedback)
+app.delete('/api/feedback', apiModules.crud.Feedback)
 
 //message when the server is running
 app.listen(port, function () {
