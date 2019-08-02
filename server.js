@@ -52,23 +52,24 @@ var pool = mysql.createPool({
 app.get('/api/chat/', function (req, res) {
     console.log("dentro del chat")
     res.sendFile(__dirname + '/index.html');
-   
+
 });
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('disconnect', function(){
-      console.log('user disconnected');
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
     });
 });
 
-io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
+io.on('connection', function (socket) {
+    socket.on('chat message', function (msg) {
+        console.log('message: ' + msg);
     });
-  });
+});
 
 
 //testing routes for the issue 28
+//ROUTES FOR COURSES
 app.get('/api/fetchCourses', (req, res) => {
     console.log('fetchCourses')
     pool.getConnection(function (error, connection) {
@@ -89,7 +90,7 @@ app.get('/api/fetchCourses', (req, res) => {
 })
 
 
-app.get('/api/fetchCourse/:id', (req, res) => {
+app.get('/api/fetchCourses/:id', (req, res) => {
     console.log('Fetching courses by id' + req.params.id)
     pool.getConnection(function (error, connection) {
         if (error) {
@@ -108,9 +109,72 @@ app.get('/api/fetchCourse/:id', (req, res) => {
 
     })
 })
+//PUT route OK (no needed)
+app.put('/api/courses/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            connection.query('UPDATE Courses SET title= ?, description=?, current_version=?, youtube_link=? WHERE id=?', [req.body.title, req.body.description, req.body.current_version, req.body.youtube_link, req.body.id], (err, rows) => {
+                res.end(JSON.stringify(rows));
+            })
+        }
+    })
 
+}),
+
+    //POST route OK (for create)
+    app.post('/api/courses/', (req, res) => {
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                console.log('Error!!');
+                connection.release();
+            } else {
+                connection.query('INSERT INTO Courses(id, title, description, current_version, youtube_link) values(?,?,?,?,?)', [req.body.id, req.body.title, req.body.description, req.body.current_version, req.body.youtube_link], (err, rows) => {
+                    res.end(JSON.stringify(rows));
+                })
+            }
+        })
+    })
+
+//PATCH route OK (modify some values)
+app.patch('/api/courses/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            connection.query('UPDATE Courses SET title= ?, description=? WHERE id=?', [req.body.title, req.body.description, req.body.id], (err, rows) => {
+                res.end(JSON.stringify(rows));
+            })
+        }
+    })
+})
+
+
+//DELETE route OK
+app.delete('/api/courses', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log('Succes')
+            const id = req.body.id
+            var queryString = "DELETE FROM Courses WHERE id = ?";
+            connection.query(queryString, [id], (err, rows, fields) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+
+})
+
+//TOPICS
+//read
 app.get('/api/fetchTopics/', (req, res) => {
-    console.log('Fetching topics by course id' + req.params.id)
     pool.getConnection(function (error, connection) {
         if (error) {
             console.log('Error!!');
@@ -126,54 +190,49 @@ app.get('/api/fetchTopics/', (req, res) => {
         }
     })
 })
-//PUT route
-app.put('/api/course/update', (req, res) => {
-    console.log("inside PUT")
+
+//POST route OK (for create) issues with "order"
+app.post('/api/topics/', (req, res) => {
     pool.getConnection(function (error, connection) {
         if (error) {
             console.log('Error!!');
             connection.release();
         } else {
-            console.log("dentro de PUT")
-            connection.query('UPDATE Courses SET title= ?, description=?, current_version=?, youtube_link=? WHERE id=?', [req.body.title, req.body.description, req.body.current_version, req.body.youtube_link, req.body.id], (err, rows) => {
+            connection.query('INSERT INTO Topics(id, title, order, rich_text_content, course_id) values (?,?,?,?,?)', [req.body.id, req.body.title, req.body.order, req.body.rich_text_content, req.body.course_id], (err, rows) => {
                 res.end(JSON.stringify(rows));
+                connection.release();
             })
         }
     })
-
 })
-//POST route
-app.post('/api/course', (req, res) => {
-    console.log("inside post")
+
+//PATCH route OK (modify some values)
+app.patch('/api/topics/', (req, res) => {
     pool.getConnection(function (error, connection) {
         if (error) {
             console.log('Error!!');
             connection.release();
         } else {
-            console.log("dentro de post")
-            connection.query('INSERT INTO Courses(id, title, description, current_version, youtube_link) values(?,?,?,?,?)', [req.body.id, req.body.title, req.body.description, req.body.current_version, req.body.youtube_link], (err, rows) => {
+            connection.query('UPDATE Topics SET title= ? WHERE id=?', [req.body.title, req.body.id], (err, rows) => {
                 res.end(JSON.stringify(rows));
+                connection.release();
             })
         }
     })
-
-
 })
 
-//DELETE route
-app.delete('/api/fetchCourses/delete/:id', (req, res) => {
-    console.log("inside delete")
+//DELETE
+app.delete('/api/topics', (req, res) => {
     pool.getConnection(function (error, connection) {
         if (error) {
             console.log('Error!!');
             connection.release();
         } else {
             console.log('Succes')
-            const id = req.params.id
-            var queryString = "DELETE FROM Courses WHERE id = ?";
+            const id = req.body.id
+            var queryString = "DELETE FROM Topics WHERE id = ?";
             connection.query(queryString, [id], (err, rows, fields) => {
                 res.end(JSON.stringify(rows));
-                console.log("dentro query")
                 connection.release();
             })
         }
@@ -181,8 +240,129 @@ app.delete('/api/fetchCourses/delete/:id', (req, res) => {
 
 })
 
+//USERS read without hashed_password
+app.get('/api/fetchUsers/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log('Succes')
+            var queryString = "SELECT id, email, date_registered, google_id FROM Users"; 
+            connection.query(queryString, (err, rows, fields) => {
+                res.json(rows)
+                connection.release();
+            })
+        }
+    })
+})
 
+app.post('/api/users/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log("inside post")
+            connection.query('INSERT INTO Users(id, email, hashed_password, date_registered, google_id ) values (?,?,?,?,?)', [req.body.id, req.body.email, req.body.hashed_password, req.body.date_registered, req.body.google_id], (err, rows) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+})
+app.patch('/api/users/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            connection.query('UPDATE Users SET email= ? WHERE id=?', [req.body.email, req.body.id], (err, rows) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+})
 
+app.delete('/api/users', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log('Succes')
+            var queryString = "DELETE FROM Users WHERE id = ?";
+            connection.query(queryString, [req.body.id], (err, rows, fields) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+
+})
+
+//FEEDBACK
+app.get('/api/fetchFeedback/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log('Succes')
+            var queryString = "SELECT * FROM Feedback";
+            connection.query(queryString, (err, rows, fields) => {
+                res.json(rows)
+                connection.release();
+            })
+        }
+    })
+})
+
+app.post('/api/feedback/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log("inside post")
+            connection.query('INSERT INTO Feedback(id, topic_id, user_id, text, date_created, adapter_direction ) values(?,?,?,?,?,?)', [req.body.id, req.body.topic_id, req.body.user_id, req.body.text, req.body.date_created, req.body.adapter_direction], (err, rows) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+})
+
+app.patch('/api/feedback/', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            connection.query('UPDATE Feedback SET text= ? WHERE id=?', [req.body.text, req.body.id], (err, rows) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+})
+app.delete('/api/feedback', (req, res) => {
+    pool.getConnection(function (error, connection) {
+        if (error) {
+            console.log('Error!!');
+            connection.release();
+        } else {
+            console.log('Succes')
+            var queryString = "DELETE FROM Feedback WHERE id = ?";
+            connection.query(queryString, [req.body.id], (err, rows, fields) => {
+                res.end(JSON.stringify(rows));
+                connection.release();
+            })
+        }
+    })
+
+})
 //message when the server is running
 app.listen(port, function () {
     console.log('SetLife-ReactWithApi: Server running on port ' + port);
