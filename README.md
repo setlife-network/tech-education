@@ -1,4 +1,4 @@
-# SetLife Tools
+# Tech Education
 
 A set of tools maintained by [The SetLife Network](http://setlife.network) to make development simpler, including a custom boilerplate for creating new React+Node apps.
 
@@ -8,7 +8,7 @@ Libaries used: Express, React, Redux, React Router, Webpack
 
 1. Clone the repo `git clone https://github.com/setlife-network/tech-education`
 
-2. Move into the directory `cd setblocks`
+2. Move into the directory `cd tech-education`
 
 3. Install dependencies `yarn install`
 
@@ -67,9 +67,9 @@ If you are making UI changes, it should be very common for some unit tests to fa
 
 ## Production	
 
-In development, the bundle is created behind the scenes and is not production ready. The production-ready bundle is served from webpack using the configuration file ~/webpack.config.production.js. To create a production-ready bundle run: 
+In development, the bundle is created behind the scenes and is not production ready. The production-ready bundle is served from webpack using the configuration file ~/config/webpack.config.prod.js. To create a production-ready bundle run: 
 
-	npm run deploy
+	npm run build
 
 this command will bundle up files and export them to public folder:
 

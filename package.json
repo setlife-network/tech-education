@@ -12,10 +12,10 @@
       "darwin": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --config config/webpack.config.dev.js",
       "win32": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --config config/webpack.config.dev.js"
     },
-    "lint": "eslint ./web",
+    "lint": "eslint ./web ./api",
     "prebuild": "rm -rf public && mkdir public",
     "build": "node ./node_modules/webpack/bin/webpack.js -p --config config/webpack.config.prod.js",
-    "start": "nodemon server"
+    "start": "node server"
   },
   "bin": {
     "setlife": "./setlife.js"
