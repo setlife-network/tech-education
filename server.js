@@ -13,7 +13,7 @@ var http = require('http').createServer(app); //chat
 var io = require('socket.io')(http);//chat
 
 var isProduction = process.env.NODE_ENV === 'production'; // fast feedback and loops
-var port = isProduction ? process.env.PORT : 3000; //use port 3000
+var port = isProduction ? process.env.PORT : 4000; //use port 3000
 
 
 app.use(express.static(__dirname + '/public')); //middleware for static files (images, css, etc) 
@@ -31,6 +31,26 @@ app.get('*', function (req, res, next) {
 
     });
 });
+
+// Required to fix CORS errors when making requests
+var cors = require('cors');
+
+var whitelist = [
+    'http://localhost:8080',
+    'http://localhost:3000',
+    'https://tech-education.herokuapp.com/'
+];
+var corsOptions = {
+    origin: function(origin, callback) {
+        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+        callback(null, originIsWhitelisted);
+    },
+    credentials: true,
+    methods: ['GET,PUT,POST,DELETE,OPTIONS'],
+    allowedHeaders: ['Access-Control-Allow-Headers', 'Origin', 'Access-Control-Allow-Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Cache-Control']
+};
+app.use(cors(corsOptions));
+
 
 //chat 
 app.get('/api/chat/', function (req, res) {
