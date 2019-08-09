@@ -6,12 +6,11 @@ var moment = require('moment'); //npm install moment -- for dates and times
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const { MYSQL } = require('./config/credentials');
+
 var app = express();
 
 var http = require('http').createServer(app); //chat
 var io = require('socket.io')(http);//chat
-
-
 
 var isProduction = process.env.NODE_ENV === 'production'; // fast feedback and loops
 var port = isProduction ? process.env.PORT : 3000; //use port 3000
@@ -22,7 +21,6 @@ app.use(bodyParser.json());
 
 app.get('*', function (req, res, next) {
     // Prevents an HTML response for API calls
-    console.log('get *')
     if (req.path.indexOf('/api/') != -1) {
         return next();
     }
@@ -36,51 +34,46 @@ app.get('*', function (req, res, next) {
 
 //chat 
 app.get('/api/chat/', function (req, res) {
-    console.log("dentro del chat")
     res.sendFile(__dirname + '/index.html');
 
 });
 io.on('connection', function (socket) {
-    console.log('a user connected');
     socket.on('disconnect', function () {
-        console.log('user disconnected');
     });
 });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
-        console.log('message: ' + msg);
     });
 });
 
 const apiModules = require('./api/modules')
 
-//testing routes for the issue 28
-//ROUTES FOR COURSES
-app.get('/api/fetchCourses', apiModules.crud.fetchCourses)
+
+//COURSES
+app.get('/api/fetchCourses/', apiModules.crud.fetchCourses)
 app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
-app.put('/api/courses/', apiModules.crud.Courses)
-app.post('/api/courses/', apiModules.crud.Courses)
-app.patch('/api/courses/', apiModules.crud.Courses)
-app.delete('/api/courses/', apiModules.crud.Courses)
+app.post('/api/courses/', apiModules.crud.createCourses)
+app.patch('/api/courses/', apiModules.crud.updateCourses)
+app.delete('/api/courses/', apiModules.crud.deleteCourses)
 
 //TOPICS
 app.get('/api/fetchTopics/', apiModules.crud.fetchTopics)
-app.post('/api/topics/', apiModules.crud.Topics)//issues with "order"
-app.patch('/api/topics/', apiModules.crud.Topics)
-app.delete('/api/topics', apiModules.crud.Topics)
+app.post('/api/topics/', apiModules.crud.createTopics)
+app.patch('/api/topics/', apiModules.crud.updateTopics)
+app.delete('/api/topics', apiModules.crud.deleteTopics)
 
 //USERS read without hashed_password
 app.get('/api/fetchUsers/', apiModules.crud.fetchUsers)
-app.post('/api/users/', apiModules.crud.Users)
-app.patch('/api/users/', apiModules.crud.Users)
-app.delete('/api/users/', apiModules.crud.Users)
+app.post('/api/users/', apiModules.crud.createUsers)
+app.patch('/api/users/', apiModules.crud.updateUsers)
+app.delete('/api/users/', apiModules.crud.deleteUsers)
 
 //FEEDBACK
 app.get('/api/fetchFeedback/', apiModules.crud.fetchFeedback)
-app.post('/api/feedback/', apiModules.crud.Feedback)
-app.patch('/api/feedback/', apiModules.crud.Feedback)
-app.delete('/api/feedback', apiModules.crud.Feedback)
+app.post('/api/feedback/', apiModules.crud.createFeedback)
+app.patch('/api/feedback/', apiModules.crud.updateFeedback)
+app.delete('/api/feedback/', apiModules.crud.deleteFeedback)
 
 //message when the server is running
 app.listen(port, function () {
