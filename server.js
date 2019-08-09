@@ -34,20 +34,16 @@ app.get('*', function (req, res, next) {
 
 //chat 
 app.get('/api/chat/', function (req, res) {
-    console.log('dentro del chat')
     res.sendFile(__dirname + '/index.html');
 
 });
 io.on('connection', function (socket) {
-    console.log('a user connected');
     socket.on('disconnect', function () {
-        console.log('user disconnected');
     });
 });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
-        console.log('message: ' + msg);
     });
 });
 
