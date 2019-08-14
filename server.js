@@ -6,6 +6,7 @@ var moment = require('moment'); //npm install moment -- for dates and times
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const { MYSQL } = require('./config/credentials');
+const sgMail = require('@sendgrid/mail');
 
 var app = express();
 
@@ -74,6 +75,10 @@ app.get('/api/fetchFeedback/', apiModules.crud.fetchFeedback)
 app.post('/api/feedback/', apiModules.crud.createFeedback)
 app.patch('/api/feedback/', apiModules.crud.updateFeedback)
 app.delete('/api/feedback/', apiModules.crud.deleteFeedback)
+
+//SUBMIT
+app.post('/api/send/', apiModules.crud.submitContactForm)
+
 
 //message when the server is running
 app.listen(port, function () {

@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const { MYSQL } = require('../../config/credentials');
+var sgMail = require('@sendgrid/mail');
 
 //declaration enviroment variables:
 var host = MYSQL.DB_HOST;
@@ -211,12 +212,12 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                connection.query('UPDATE Users SET email= ? WHERE id=?', 
+                connection.query('UPDATE Users SET email= ? WHERE id=?',
                     [
-                        req.body.email, 
+                        req.body.email,
                         req.body.id
-                    
-                    ], 
+
+                    ],
                     (err, rows) => {
                         res.end(JSON.stringify(rows));
                         connection.release();
@@ -299,6 +300,26 @@ var crud = module.exports = (function () {
             }
         })
     }
+    const submitContactForm = (req, res) => {
+        //future connection to the airtable
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                connection.release();
+            } else {
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                const msg = {
+                    to: 'rebecarubiolopez@gmail.com',
+                    from: 'contact@setlife.network',
+                    subject: 'Setlife Newsletter',
+                    text: 'Contact form submitted successfully',
+                   // html: '<strong> thanks </strong>',
+                };
+                sgMail.send(msg);
+            }
+
+        })
+    }
+
     return {
         fetchCourses,
         fetchCoursesById,
@@ -317,5 +338,6 @@ var crud = module.exports = (function () {
         createFeedback,
         updateFeedback,
         deleteFeedback,
+        submitContactForm,
     };
 })();

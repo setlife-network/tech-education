@@ -8,14 +8,14 @@ module.exports = {
         user: 'ya3jszaappent36v',
         timezone: 'Z',
         connectionLimit: 1000,
-        password: 'make this password secure', //real password?
+        password: 'make this password secure', 
         waitForConnection: true,
         queueLimit: 0,
         acquireTimeout: 100000,
         knexConfig: {
             client: 'mysql',
             connection: {
-                host: 'insert rds database host', //same info?
+                host: 'insert rds database host', 
                 port: '3306',
                 database: 'main',
                 user: 'admin',
