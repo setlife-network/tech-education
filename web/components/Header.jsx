@@ -34,6 +34,7 @@ class Header extends React.Component {
                 <Flex
                     row
                     alignItems='center'
+                    height={theme.header.height}
                     bg={theme.colors.facebook}
                 >
                     {/* <Content>
