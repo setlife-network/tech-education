@@ -1,4 +1,4 @@
-const API_ROOT = 'http://localhost:4000/api'
+import { API_ROOT } from '../constants'
 
 export default {
     get(route, query) {
