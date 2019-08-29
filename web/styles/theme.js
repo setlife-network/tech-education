@@ -121,8 +121,9 @@ export default {
         display3: 'h3',
         display4: 'h4',
     },
-    // Nav Bar
+    // Nav Bar Header
     navbar: [100, 240],
+    header: { height: 60 },
     // Spacing (styled-system)
     space: [0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80],
     // Transitions

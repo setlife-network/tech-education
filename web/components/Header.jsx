@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -15,23 +16,6 @@ const Content = styled.div`
   flex-flow: row wrap;
   /* This aligns items to the end line on main-axis */
   justify-content: flex-end;
-  
-    @media all and (min-width: 1024px ) {
-        margin-right: 5%;  
-    }
-
-    /* Medium screens */
-    @media all and (max-width: 768px) {
-        /* When on medium sized screens, we center it by evenly distributing empty space around items */
-        justify-content: space-around;
-    }
-
-    /* Small screens */
-    @media all and (max-width: 500px) {
-        /* On small screens, we are no longer using row direction but column, this will be change */
-        flex-direction: column;
-      }
-    }
 `
 
 class Header extends React.Component {
@@ -50,6 +34,7 @@ class Header extends React.Component {
                 <Flex
                     row
                     alignItems='center'
+                    height={theme.header.height}
                     bg={theme.colors.facebook}
                 >
                     {/* <Content>

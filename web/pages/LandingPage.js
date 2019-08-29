@@ -5,8 +5,6 @@ import ImageSection from 'components/ImageSection';
 import Text from 'components/Text';
 import SetlifeCourses from 'components/SetlifeCourses';
 
-import theme from '../styles/theme';
-
 export default class LandingPage extends React.Component {
     goToCurriculumEthos = () => {
         this.props.history.push('/curriculum-ethos')

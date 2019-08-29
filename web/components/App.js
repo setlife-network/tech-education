@@ -32,6 +32,8 @@ class App extends React.Component {
                     width={[
                         1, // 100% below smallest breakpoint
                     ]}
+                    pt={theme.header.height}
+                    bg={theme.colors.white}
                 >
                     {routes}
                 </Flex>
