@@ -1,30 +1,49 @@
 import React from 'react';
-import { connect } from 'react-redux'
 
 import Box from 'components/Box';
 import CourseTile from 'components/CourseTile';
 import Text from 'components/Text';
 
-import { fetchCourses } from '../reducers/contentManagement'
-
 class AdminCoursesPage extends React.Component {
+    state = {
+        allCourses: []
+    }
     componentDidMount() {
         console.log('AdminCoursesPage: componentDidMount')
-        this.props.fetchCourses()
+
+        fetch('http://localhost:4000/api/fetchCourses', {
+            method: 'GET'
+        })
+        .then(response => {
+            console.log('response')
+            console.log(response)
+            return response.json()
+        })
+        .then(json => {
+            console.log('json')
+            console.log(json)
+
+            this.setState({
+                allCourses: json
+            })
+        })
+
     }
 
     renderCourses = () => {
-        return this.props.allCourses.map(c => {
+        return this.state.allCourses.map(c => {
             return (
                 <CourseTile
-                    {...c}
+                    title={c.title}
+                    description={c.description}
+                    current_version={c.current_version}
                 />
             )
         })
     }
     render() {
         console.log('allCourses')
-        console.log(this.props.allCourses)
+        console.log(this.state)
 
         return (
             <Box>
@@ -46,8 +65,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = {
+/*const mapDispatchToProps = {
     fetchCourses
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminCoursesPage);
+export default AdminCoursesPage
