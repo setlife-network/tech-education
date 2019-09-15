@@ -26,7 +26,7 @@ Get familiar with the **setlife** folder structure
 |-- /config/                        # Configuration files (database options, keys, constants, etc) 
 |-- /public/                        # Holds all compiled and static files such as fonts and images
 	|-- /index.html/				# The root static HTML file that will serve the web app in production
-|-- /web/							# Frontend application source code
+|-- /src/							# Frontend application source code
 	|-- /components/			    # React components
 	|-- /constants/					# Any constant variable used throughout the app
 	|-- /pages/					    # Higher-level route-mapped containers for arranging React Components

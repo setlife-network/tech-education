@@ -74,12 +74,12 @@ const CourseTile = (props) => {
             body
             className='mr-5 ml-2 mt-1 p-2 pb-1'
         >
-            <Text>
+            <h5>
                 {props.title}
-            </Text>
-            <Text>
+            </h5>
+            <p>
                 {props.description}
-            </Text>
+            </p>
             <Button
                 variant='info'
                 className='m-1 p-1'
