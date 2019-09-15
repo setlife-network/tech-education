@@ -16,7 +16,7 @@ var isProduction = process.env.NODE_ENV === 'production'; // fast feedback and l
 var port = isProduction ? process.env.PORT : 4000; //use port 3000
 
 
-app.use(express.static(__dirname + '/public')); //middleware for static files (images, css, etc) 
+app.use(express.static(__dirname + '/build')); //middleware for static files (images, css, etc) 
 app.use(bodyParser.json());
 
 app.get('*', function (req, res, next) {
@@ -26,7 +26,7 @@ app.get('*', function (req, res, next) {
     }
 
 
-    fs.readFile(__dirname + '/public/index.html', 'utf8', function (err, text) {
+    fs.readFile(__dirname + '/build/index.html', 'utf8', function (err, text) {
         res.send(text);
 
     });
