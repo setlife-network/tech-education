@@ -49,6 +49,23 @@ var crud = module.exports = (function () {
         })
 
     }
+    const fetchCoursesByLanguage = (req, res) => {
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                connection.release();
+            } else {
+                const language_id = req.params.language_id
+                const queryString = 'SELECT * FROM Courses WHERE language_id = ?'
+                connection.query(queryString, [language_id], (err, rows, fields) => {
+                    res.json(rows)
+                    connection.release();
+                })
+
+            }
+
+        })
+
+    }
     const createCourses = (req, res) => {
         pool.getConnection(function (error, connection) {
             if (error) {
@@ -112,6 +129,20 @@ var crud = module.exports = (function () {
                 const courseId = req.params.id
                 var queryString = 'SELECT * FROM Topics';
                 connection.query(queryString, [courseId], (err, rows, fields) => {
+                    res.json(rows)
+                    connection.release();
+                })
+            }
+        })
+    }
+    const fetchTopicsByLanguage = (req, res) => {
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                connection.release();
+            } else {
+                const language_id = req.params.language_id
+                var queryString = 'SELECT * FROM Topics WHERE course_id IN (SELECT id FROM Courses WHERE language_id =?)';
+                connection.query(queryString, [language_id], (err, rows, fields) => {
                     res.json(rows)
                     connection.release();
                 })
@@ -302,10 +333,12 @@ var crud = module.exports = (function () {
     return {
         fetchCourses,
         fetchCoursesById,
+        fetchCoursesByLanguage,
         createCourses,
         updateCourses,
         deleteCourses,
         fetchTopics,
+        fetchTopicsByLanguage,
         createTopics,
         updateTopics,
         deleteTopics,
