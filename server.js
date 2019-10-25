@@ -76,12 +76,15 @@ app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
 app.post('/api/courses/', apiModules.crud.createCourses)
 app.patch('/api/courses/', apiModules.crud.updateCourses)
 app.delete('/api/courses/', apiModules.crud.deleteCourses)
+app.get('/api/fetchCoursesByLanguage/:language_id', apiModules.crud.fetchCoursesByLanguage)
+
 
 //TOPICS
 app.get('/api/fetchTopics/', apiModules.crud.fetchTopics)
 app.post('/api/topics/', apiModules.crud.createTopics)
 app.patch('/api/topics/', apiModules.crud.updateTopics)
 app.delete('/api/topics', apiModules.crud.deleteTopics)
+app.get('/api/fetchTopics/:language_id', apiModules.crud.fetchTopicsByLanguage)
 
 //USERS read without hashed_password
 app.get('/api/fetchUsers/', apiModules.crud.fetchUsers)
