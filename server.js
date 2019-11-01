@@ -71,32 +71,34 @@ const apiModules = require('./api/modules')
 
 
 //COURSES
-app.get('/api/fetchCourses/', apiModules.crud.fetchCourses)
+app.get('/api/fetchCourses', apiModules.crud.fetchCourses)
 app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
-app.post('/api/courses/', apiModules.crud.createCourses)
-app.patch('/api/courses/', apiModules.crud.updateCourses)
-app.delete('/api/courses/', apiModules.crud.deleteCourses)
+app.post('/api/courses', apiModules.crud.createCourses)
+app.patch('/api/courses', apiModules.crud.updateCourses)
+app.delete('/api/courses', apiModules.crud.deleteCourses)
 app.get('/api/fetchCoursesByLanguage/:language_id', apiModules.crud.fetchCoursesByLanguage)
 
 
 //TOPICS
-app.get('/api/fetchTopics/', apiModules.crud.fetchTopics)
-app.post('/api/topics/', apiModules.crud.createTopics)
-app.patch('/api/topics/', apiModules.crud.updateTopics)
+app.get('/api/fetchTopics', apiModules.crud.fetchTopics)
+app.get('/api/fetchTopics/:id', apiModules.crud.fetchTopicsByTopicId)
+app.get('/api/fetchTopicsByCourse/:course_id', apiModules.crud.fetchTopicsByCourseId)
+app.post('/api/topics', apiModules.crud.createTopics)
+app.patch('/api/topics', apiModules.crud.updateTopics)
 app.delete('/api/topics', apiModules.crud.deleteTopics)
-app.get('/api/fetchTopics/:language_id', apiModules.crud.fetchTopicsByLanguage)
+app.get('/api/fetchTopicsByLanguage/:language_id', apiModules.crud.fetchTopicsByLanguage)
 
 //USERS read without hashed_password
-app.get('/api/fetchUsers/', apiModules.crud.fetchUsers)
-app.post('/api/users/', apiModules.crud.createUsers)
-app.patch('/api/users/', apiModules.crud.updateUsers)
-app.delete('/api/users/', apiModules.crud.deleteUsers)
+app.get('/api/fetchUsers', apiModules.crud.fetchUsers)
+app.post('/api/users', apiModules.crud.createUsers)
+app.patch('/api/users', apiModules.crud.updateUsers)
+app.delete('/api/users', apiModules.crud.deleteUsers)
 
 //FEEDBACK
-app.get('/api/fetchFeedback/', apiModules.crud.fetchFeedback)
-app.post('/api/feedback/', apiModules.crud.createFeedback)
-app.patch('/api/feedback/', apiModules.crud.updateFeedback)
-app.delete('/api/feedback/', apiModules.crud.deleteFeedback)
+app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
+app.post('/api/feedback', apiModules.crud.createFeedback)
+app.patch('/api/feedback', apiModules.crud.updateFeedback)
+app.delete('/api/feedback', apiModules.crud.deleteFeedback)
 
 //message when the server is running
 app.listen(port, function () {

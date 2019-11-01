@@ -72,13 +72,14 @@ var crud = module.exports = (function () {
                 connection.release();
             } else {
                 connection.query(
-                    'INSERT INTO Courses(id, title, description, current_version, youtube_link) values(?,?,?,?,?)',
+                    'INSERT INTO Courses(id, title, description, current_version, youtube_link, language_id) values(?,?,?,?,?,?)',
                     [
                         req.body.id,
                         req.body.title,
                         req.body.description,
                         req.body.current_version,
-                        req.body.youtube_link
+                        req.body.youtube_link,
+                        req.body.language_id
                     ],
                     (err, rows) => {
                         res.end(JSON.stringify(rows));
@@ -121,6 +122,7 @@ var crud = module.exports = (function () {
         })
 
     }
+    
     const fetchTopics = (req, res) => {
         pool.getConnection(function (error, connection) {
             if (error) {
@@ -129,6 +131,34 @@ var crud = module.exports = (function () {
                 const courseId = req.params.id
                 var queryString = 'SELECT * FROM Topics';
                 connection.query(queryString, [courseId], (err, rows, fields) => {
+                    res.json(rows)
+                    connection.release();
+                })
+            }
+        })
+    }
+    const fetchTopicsByTopicId = (req, res) => {
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                connection.release();
+            } else {
+                const id = req.params.id
+                var queryString = 'SELECT * FROM Topics WHERE id =?';
+                connection.query(queryString, [id], (err, rows, fields) => {
+                    res.json(rows)
+                    connection.release();
+                })
+            }
+        })
+    }
+    const fetchTopicsByCourseId = (req, res) => {
+        pool.getConnection(function (error, connection) {
+            if (error) {
+                connection.release();
+            } else {
+                const id = req.params.course_id
+                var queryString = 'SELECT * FROM Topics WHERE course_id =?';
+                connection.query(queryString, [id], (err, rows, fields) => {
                     res.json(rows)
                     connection.release();
                 })
@@ -201,6 +231,7 @@ var crud = module.exports = (function () {
             }
         })
     }
+
     const fetchUsers = (req, res) => {
         pool.getConnection(function (error, connection) {
             if (error) {
@@ -268,6 +299,7 @@ var crud = module.exports = (function () {
             }
         })
     }
+
     const fetchFeedback = (req, res) => {
         pool.getConnection(function (error, connection) {
             if (error) {
@@ -338,6 +370,8 @@ var crud = module.exports = (function () {
         updateCourses,
         deleteCourses,
         fetchTopics,
+        fetchTopicsByTopicId,
+        fetchTopicsByCourseId,
         fetchTopicsByLanguage,
         createTopics,
         updateTopics,
