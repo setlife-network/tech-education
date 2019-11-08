@@ -35,7 +35,7 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "lint": "eslint ./web ./api",
+    "lint": "eslint ./src ./api",
     "start": "node server",
     "dev": "node server",
     "build": "npm run build",
@@ -56,5 +56,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-babel": "^5.3.0"
   }
 }
