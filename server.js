@@ -104,7 +104,7 @@ app.patch('/api/feedback', apiModules.crud.updateFeedback)
 app.delete('/api/feedback', apiModules.crud.deleteFeedback)
 
 //message when the server is running
-sequelize.sync().then(function() {
+db.sequelize.sync().then(function() {
     app.listen(port, function () {
         console.log('SetLife-ReactWithApi: Server running on port ' + port);
     
