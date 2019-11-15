@@ -1,45 +1,45 @@
-const Sequelize= require ('sequelize');
+const Sequelize = require('sequelize');
 
-module.exports =(sequelize) =>{
-    class User extends Sequelize.Model{}
+module.exports = (sequelize) => {
+    class User extends Sequelize.Model { }
     User.init({
-        id:{
-            type: INTEGER,
+        id: {
+            type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-       
+
         },
-        email:{
-            type: STRING(250),
-            unique: true ,
+        email: {
+            type: Sequelize.STRING(250),
+            unique: true,
             allowNull: false,
 
         },
-        hashed_password:{
-            type: STRING(250),
+        hashed_password: {
+            type: Sequelize.STRING(250),
 
         },
-        date_registered:{
-            type: DATE, 
-            defaultValue: NOW 
+        date_registered: {
+            type: Sequelize.DATE,
+            defaultValue: NOW
 
         },
-        google_id:{
-            type: STRING(50)
+        google_id: {
+            type: Sequelize.STRING(50)
         },
 
     },
 
-    // Model options object
-{
-    timestamps: true,
-    sequelize 
+        // Model options object
+    {
+        timestamps: true,
+        sequelize
 
-});
-User.associate = (models) => {
-    User.hasMany(models.Feedback, { foreignKey: 'id' });
-};
+    });
+    User.associate = (models) => {
+        User.hasMany(models.Feedback, { foreignKey: 'id' });
+    };
 
-return User;
+    return User;
 };

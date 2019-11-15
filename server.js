@@ -1,11 +1,14 @@
 require('dotenv').config() //plugin environment variables
+var sequelize = require('./api/models').sequelize;
 var express = require('express');
 var path = require('path'); // path module to work with directories and files
 var fs = require('fs'); //files module
+
 var moment = require('moment'); //npm install moment -- for dates and times
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const { MYSQL } = require('./config/credentials');
+
 
 var app = express();
 
@@ -101,7 +104,9 @@ app.patch('/api/feedback', apiModules.crud.updateFeedback)
 app.delete('/api/feedback', apiModules.crud.deleteFeedback)
 
 //message when the server is running
-app.listen(port, function () {
-    console.log('SetLife-ReactWithApi: Server running on port ' + port);
-
+sequelize.sync().then(function() {
+    app.listen(port, function () {
+        console.log('SetLife-ReactWithApi: Server running on port ' + port);
+    
+    });
 });

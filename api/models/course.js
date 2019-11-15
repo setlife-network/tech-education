@@ -1,31 +1,31 @@
-const Sequelize = require ('sequelize');
+const Sequelize = require('sequelize');
 
-module.exports =(sequelize) =>{
-    class Course extends Sequelize.Model{}
+module.exports = (sequelize) => {
+    class Course extends Sequelize.Model {}
     Course.init({
-        id:{
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
    
         },
-        title:{
+        title: {
             type: Sequelize.STRING(250),
-            unique: true ,
+            unique: true,
             allowNull: false,
 
         },
-        description:{
+        description: {
             type: Sequelize.TEXT('long'),
             allowNull: true,
 
         },
-        current_version:{
-            type:Sequelize.STRING(10),
+        current_version: {
+            type: Sequelize.STRING(10),
 
         },
-        youtube_link:{
+        youtube_link: {
             type: Sequelize.STRING(550)
         },
 
@@ -33,17 +33,14 @@ module.exports =(sequelize) =>{
    
 
     // Model options object
-{
-    sequelize 
+    { sequelize, modelName: 'course' });
 
-});
 
-//FKs
     Course.associate = (models) => {
         Course.hasMany(models.Topic, { foreignKey: 'id' });
-        Course.belongsTo(models.Language, { foreignKey: 'languages_id' });
+        Course.belongsTo(models.Language, { foreignKey: 'language_id' });
 
     };
 
-return Course;
+    return Course;
 };

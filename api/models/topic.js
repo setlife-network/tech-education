@@ -1,33 +1,33 @@
-const Sequelize = require ('sequelize');
+const Sequelize = require('sequelize');
 
-module.exports =(sequelize) =>{
-    class Topic extends Sequelize.Model{}
+module.exports = (sequelize) => {
+    class Topic extends Sequelize.Model {}
     Topic.init({
-        id:{
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
             
         },
-        title:{
+        title: {
             type: Sequelize.STRING(250),
-            unique: true ,
+            unique: true,
             allowNull: false,
 
         },
-        order:{
+        order: {
             type: Sequelize.INTEGER,
 
         },
-        current_version:{
+        current_version: {
             type: Sequelize.STRING(10),
 
         },
-        rich_text_content:{
+        rich_text_content: {
             type: Sequelize.TEXT('long'),
         },
-        created_on:{
+        created_on: {
             type: Sequelize.DATEONLY,
         },
 
@@ -35,15 +35,15 @@ module.exports =(sequelize) =>{
     },
 
     // Model options object
-{
-    sequelize 
-});
+    {
+        sequelize 
+    });
 
-Topic.associate = models => {
-    Topic.belongsTo(models.Course, {foreignKey: 'course_id'}); 
-    Topic.hasMany(models.Feedback),{foreignKey: 'id'});
-};
+    Topic.associate = models => {
+        Topic.belongsTo(models.Course, { foreignKey: 'course_id' }); 
+        Topic.hasMany(models.Feedback, { foreignKey: 'id' });
+    };
 
 
-return Topic;
+    return Topic;
 };

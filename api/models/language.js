@@ -1,16 +1,16 @@
-const Sequelize = require ('sequelize');
+const Sequelize = require('sequelize');
 
-module.exports =(sequelize) =>{
-    class Language extends Sequelize.Model{}
+module.exports = (sequelize) => {
+    class Language extends Sequelize.Model {}
     Language.init({
-        id:{
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
            
         },
-        name:{
+        name: {
             type: Sequelize.STRING(50),
             allowNull: false,
 
@@ -19,12 +19,12 @@ module.exports =(sequelize) =>{
     },
 
     // Model options object
-{
-    sequelize 
+    {
+        sequelize 
 
-});
+    });
     Language.associate = (models) => {
         Language.hasMany(models.Course, { foreignKey: 'id' });
     };
-return Language;
+    return Language;
 };

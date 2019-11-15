@@ -1,40 +1,54 @@
 const Sequelize = require('sequelize');
+const mysql = require('mysql');
+const { MYSQL } = require('../../config/credentials');
 
-const sequelize = new Sequelize(MYSQL_DB_NAME, MYSQL_DB_USERNAME, MYSQL_DB_PASSWORD, {
+//declaration enviroment variables:
+var host = MYSQL.DB_HOST;
+var username = MYSQL.DB_USERNAME;
+var password = MYSQL.DB_PASSWORD;
+var DB = MYSQL.DB_NAME;
 
-    host: MYSQL_DB_HOST,
-    dialect: 'mysql',
-    port: 3306,
-    logging: function () { },
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-    },
-    dialectOptions: {
-        socketPath: "/var/run/mysqld/mysqld.sock"
-    },
-    charset: 'utf8',
-    collate: 'utf8_unicode_ci', 
+const sequelize = new Sequelize(
+    DB,
+    username,
+    password,
+    {
+        host: host,
+        dialect: 'mysql',
+        dialectModule: 'mysql2', // Needed to fix sequelize issues with WebPack
+        port: 3306,
+        pool: {
+            max: 5,
+            min: 0,
+            idle: 10000
+        },
+        dialectOptions: {
+            socketPath: '/var/run/mysqld/mysqld.sock'
+        },
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci',
+
+    }
+);
+
+sequelize
+.authenticate()
+.then(() => {
+    console.log('Connection has been established successfully.');
+})
+.catch(err => {
+    console.error('Unable to connect to the database:', err);
 });
 
-const db = {
+db.models.User = require('./user')(sequelize);
+db.models.Topic = require('./topic')(sequelize);
+db.models.Course = require('./course')(sequelize);
+db.models.Language = require('./language')(sequelize);
+db.models.Feedback = require('./feedback')(sequelize);
+
+module.exports = {
     sequelize,
-    Sequelize,
     models: {
-        User,
-        Topic,
-        Language,
-        Feedback,
-        Course,
-        
-    },
+        User: require('./user')(sequelize)
+    }
 };
-
-db.models.User = require('./models/user.js')(sequelize);
-db.models.Topic = require('./models/topic.js')(sequelize);
-db.models.Course = require('./models/course.js')(sequelize);
-db.models.Language= require('./models/language.js')(sequelize);
-db.models.Feedback = require('./models/feedback.js')(sequelize);
-
-module.exports = db;

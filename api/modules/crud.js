@@ -54,7 +54,7 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                const language_id = req.params.language_id
+                const { language_id } = req.params
                 const queryString = 'SELECT * FROM Courses WHERE language_id = ?'
                 connection.query(queryString, [language_id], (err, rows, fields) => {
                     res.json(rows)
@@ -84,7 +84,8 @@ var crud = module.exports = (function () {
                     (err, rows) => {
                         res.end(JSON.stringify(rows));
                         connection.release();
-                    })
+                    }
+                )
             }
         })
 
@@ -112,7 +113,7 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                const id = req.body.id
+                const { id } = req.body
                 var queryString = 'DELETE FROM Courses WHERE id = ?';
                 connection.query(queryString, [id], (err, rows, fields) => {
                     res.end(JSON.stringify(rows));
@@ -142,7 +143,7 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                const id = req.params.id
+                const { id } = req.params
                 var queryString = 'SELECT * FROM Topics WHERE id =?';
                 connection.query(queryString, [id], (err, rows, fields) => {
                     res.json(rows)
@@ -170,7 +171,7 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                const language_id = req.params.language_id
+                const { language_id } = req.params
                 var queryString = 'SELECT * FROM Topics WHERE course_id IN (SELECT id FROM Courses WHERE language_id =?)';
                 connection.query(queryString, [language_id], (err, rows, fields) => {
                     res.json(rows)
@@ -222,7 +223,7 @@ var crud = module.exports = (function () {
             if (error) {
                 connection.release();
             } else {
-                const id = req.body.id
+                const { id } = req.body
                 var queryString = 'DELETE FROM Topics WHERE id = ?';
                 connection.query(queryString, [id], (err, rows, fields) => {
                     res.end(JSON.stringify(rows));
@@ -264,7 +265,8 @@ var crud = module.exports = (function () {
                     (err, rows) => {
                         res.end(JSON.stringify(rows));
                         connection.release();
-                    })
+                    }
+                )
             }
         })
     }
@@ -332,7 +334,8 @@ var crud = module.exports = (function () {
                     (err, rows) => {
                         res.end(JSON.stringify(rows));
                         connection.release();
-                    })
+                    }
+                )
             }
         })
     }
