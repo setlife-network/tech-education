@@ -1,12 +1,5 @@
 module.exports = {
-    "parser": "babel-eslint",
-    settings: {
-        'import/resolver': {
-            webpack: {
-                config: './config/webpack.common.js'
-            }
-        }
-    },
+    'parser': 'babel-eslint',
     'extends': 'airbnb',
     'plugins': [
         'babel'
@@ -79,7 +72,7 @@ module.exports = {
         'react/forbid-prop-types': ['off'],
         'react/jsx-filename-extension': ['off'],
         'react/jsx-space-before-closing': ['off'],
-        'react/jsx-indent': ['error', 4, { 'MemberExpression': 0 }],
+        'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
         'react/no-danger': ['off'],
         'react/no-unescaped-entities': ['off'],
