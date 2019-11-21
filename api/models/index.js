@@ -2,28 +2,25 @@ const Sequelize = require('sequelize');
 const mysql = require('mysql');
 const { MYSQL } = require('../../config/credentials');
 
-//declaration enviroment variables:
-var host = MYSQL.DB_HOST;
-var username = MYSQL.DB_USERNAME;
-var password = MYSQL.DB_PASSWORD;
-var DB = MYSQL.DB_NAME;
+const {
+    DB_HOST,
+    DB_USERNAME,
+    DB_PASSWORD,
+    DB_NAME
+} = MYSQL
 
 const sequelize = new Sequelize(
-    DB,
-    username,
-    password,
+    DB_NAME,
+    DB_USERNAME,
+    DB_PASSWORD,
     {
-        host: host,
+        host: DB_HOST,
         dialect: 'mysql',
-        dialectModule: 'mysql2', // Needed to fix sequelize issues with WebPack
         port: 3306,
         pool: {
             max: 5,
             min: 0,
             idle: 10000
-        },
-        dialectOptions: {
-            socketPath: '/var/run/mysqld/mysqld.sock'
         },
         charset: 'utf8',
         collate: 'utf8_unicode_ci',
@@ -40,15 +37,13 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-db.models.User = require('./user')(sequelize);
-db.models.Topic = require('./topic')(sequelize);
-db.models.Course = require('./course')(sequelize);
-db.models.Language = require('./language')(sequelize);
-db.models.Feedback = require('./feedback')(sequelize);
-
 module.exports = {
     sequelize,
     models: {
-        User: require('./user')(sequelize)
+        User: require('./user')(sequelize),
+        Topic: require('./topic')(sequelize),
+        Course: require('./course')(sequelize),
+        Language: require('./language')(sequelize),
+        Feedback: require('./feedback')(sequelize),
     }
 };
