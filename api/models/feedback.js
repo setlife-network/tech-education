@@ -29,9 +29,8 @@ module.exports = (sequelize) => {
 
     // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize,
-        modelName: 'feedback'
 
     });
 

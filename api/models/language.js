@@ -20,11 +20,12 @@ module.exports = (sequelize) => {
 
     // Model options object
     {
+        timestamps: false,
         sequelize 
 
     });
     Language.associate = (models) => {
-        Language.hasMany(models.Course, { foreignKey: 'id' });
-    };
+        Language.hasMany(models.Course);
+    }; 
     return Language;
 };

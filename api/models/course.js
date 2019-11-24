@@ -28,19 +28,30 @@ module.exports = (sequelize) => {
         youtube_link: {
             type: Sequelize.STRING(550)
         },
+        /* language_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: module.Language,
+                key: 'id'
+            }
+        }, */
 
     },
    
 
     // Model options object
-    { sequelize, modelName: 'course' });
+    {
+        timestamps: false,
+        sequelize
+
+    });
 
 
     Course.associate = (models) => {
-        Course.hasMany(models.Topic, { foreignKey: 'id' });
-        Course.belongsTo(models.Language, { foreignKey: 'language_id' });
+        Course.hasMany(models.Topic);
+        Course.belongsTo(models.Language);
 
-    };
+    }; 
 
     return Course;
 };

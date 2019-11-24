@@ -20,27 +20,30 @@ module.exports = (sequelize) => {
             type: Sequelize.INTEGER,
 
         },
-        current_version: {
-            type: Sequelize.STRING(10),
-
-        },
         rich_text_content: {
             type: Sequelize.TEXT('long'),
         },
         created_on: {
             type: Sequelize.DATEONLY,
         },
+        course_id: {
+            type: Sequelize.INTEGER,
+            references: 'courses', //table's name no object name
+            referencesKey: 'id',
+        }
 
 
     },
 
     // Model options object
     {
+        timestamps: false,
         sequelize 
+        
     });
 
     Topic.associate = models => {
-        Topic.belongsTo(models.Course, { foreignKey: 'course_id' }); 
+        Topic.belongsTo(models.Course); 
         Topic.hasMany(models.Feedback, { foreignKey: 'id' });
     };
 
