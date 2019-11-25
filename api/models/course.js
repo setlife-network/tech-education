@@ -28,13 +28,13 @@ module.exports = (sequelize) => {
         youtube_link: {
             type: Sequelize.STRING(550)
         },
-        /* language_id: {
+        language_id: {
             type: Sequelize.INTEGER,
             references: {
                 model: module.Language,
                 key: 'id'
             }
-        }, */
+        }, 
 
     },
    

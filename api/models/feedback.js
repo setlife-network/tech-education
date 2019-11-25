@@ -34,12 +34,11 @@ module.exports = (sequelize) => {
 
     });
 
-    Feedback.associate = (models) => {
-        Feedback.belongsTo(models.User, { foreignKey: 'user_id' });
+    Feedback.associate = models => {
+        Feedback.belongsTo(models.User);
+        Feedback.belongsTo(models.Topic);
     };
-    Feedback.associate = (models) => {
-        Feedback.belongsTo(models.Topic, { foreignKey: 'topic_id' });
-    };
+   
 
     return Feedback;
 };
