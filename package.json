@@ -23,6 +23,7 @@
     "lodash": "^4.16.4",
     "moment": "^2.15.1",
     "mysql": "github:mysqljs/mysql",
+    "mysql2": "^2.0.1",
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.12",

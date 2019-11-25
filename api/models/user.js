@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         },
         date_registered: {
             type: Sequelize.DATE,
-            defaultValue: NOW
+            defaultValue: Sequelize.NOW,
 
         },
         google_id: {
@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
 
         // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize
 
     });
