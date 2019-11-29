@@ -72,14 +72,53 @@ io.on('connection', function (socket) {
 
 const apiModules = require('./api/modules')
 
+const {
+    fetchCourses,
+    fetchCoursesById,
+    createCourses,
+    updateCourses,
+    deleteCourses,
+    fetchCoursesByLanguage,
+
+    fetchTopicsByLanguage,
+    fetchTopicsByCourseId,
+    fetchTopicsByTopicId,
+    fetchTopics,
+    createTopics,
+    updateTopics,
+    deleteTopics,
+
+    fetchUsers,
+    createUsers,
+    updateUsers,
+    deleteUsers,
+
+    fetchFeedback,
+    createFeedback,
+    updateFeedback,
+    deleteFeedback,
+
+} = apiModules.crud
 
 //COURSES
-app.get('/api/fetchCourses', apiModules.crud.fetchCourses)
-app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
-app.post('/api/courses', apiModules.crud.createCourses)
-app.patch('/api/courses', apiModules.crud.updateCourses)
-app.delete('/api/courses', apiModules.crud.deleteCourses)
-app.get('/api/fetchCoursesByLanguage/:language_id', apiModules.crud.fetchCoursesByLanguage)
+app.get('/api/fetchCourses/:id', (req, res) => {
+    fetchCoursesById({ courseId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchCourses', (req, res) => {
+    fetchCourses({}).then(res.json)
+})
+app.post('/api/courses', (req, res) => {
+    createCourses({ values: req.body }).then(res.json)
+})
+app.patch('/api/courses', (req, res) => {
+    updateCourses({ values: req.body }).then(res.json)
+})
+app.delete('/api/courses', (req, res) => {
+    deleteCourses({ values: req.body }).then(res.json)
+})
+app.get('/api/fetchCoursesByLanguage/:language_id', (req, res) => {
+    createCourses({ languageId: req.params.language_id }).then(res.json)
+})
 
 
 //TOPICS
@@ -104,9 +143,8 @@ app.patch('/api/feedback', apiModules.crud.updateFeedback)
 app.delete('/api/feedback', apiModules.crud.deleteFeedback)
 
 //message when the server is running
-db.sequelize.sync().then(function() {
-    app.listen(port, function () {
-        console.log('SetLife-ReactWithApi: Server running on port ' + port);
+
+app.listen(port, function () {
+    console.log('SetLife-ReactWithApi: Server running on port ' + port);
     
-    });
 });
