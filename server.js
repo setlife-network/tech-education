@@ -1,4 +1,6 @@
 require('dotenv').config() //plugin environment variables
+// Required to fix CORS errors when making requests
+var cors = require('cors');
 var sequelize = require('./api/models').sequelize;
 var express = require('express');
 var path = require('path'); // path module to work with directories and files
@@ -34,9 +36,6 @@ app.get('*', function (req, res, next) {
 
     });
 });
-
-// Required to fix CORS errors when making requests
-var cors = require('cors');
 
 var whitelist = [
     'http://localhost:8080',
@@ -118,7 +117,7 @@ app.delete('/api/courses', (req, res) => {
 })
 app.get('/api/fetchCoursesByLanguage/:language_id', (req, res) => {
     createCourses({ languageId: req.params.language_id }).then(res.json)
-})
+}) 
 
 
 //TOPICS
@@ -140,9 +139,10 @@ app.delete('/api/users', apiModules.crud.deleteUsers)
 app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
 app.post('/api/feedback', apiModules.crud.createFeedback)
 app.patch('/api/feedback', apiModules.crud.updateFeedback)
-app.delete('/api/feedback', apiModules.crud.deleteFeedback)
+app.delete('/api/feedback', apiModules.crud.deleteFeedback) */
 
-//message when the server is running
+
+db.sequelize.sync({ force: true });
 
 app.listen(port, function () {
     console.log('SetLife-ReactWithApi: Server running on port ' + port);
