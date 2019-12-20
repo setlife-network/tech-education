@@ -15,12 +15,20 @@ module.exports = (sequelize) => {
             allowNull: false,
 
         },
+        createdAt: {
+            
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        },
 
     },
 
     // Model options object
     {
-        timestamps: false,
+        timestamps: true,
         sequelize 
 
     });
