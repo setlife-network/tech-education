@@ -117,7 +117,92 @@ module.exports = (function () {
             })
         )
     }
+    const fetchTopics = (params) => {
+        return (
+            Topic.findAll({
+            })
+            .then(topics => {
+                console.log('All Topics:', JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+    const fetchTopicsByCourse = (params) => {
+        const { courseId } = params 
+        return (
+            Topic.findAll({
+                where: {
+                    course_id: courseId
+                }
+            })
+            .then(topics => {
+                console.log('All Topics by Course:', courseId, JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+    const createTopics = (params) => {
+        const {
+            title,
+            order,
+            rich_text_content,
+            created_on,
+            course_id,
+        } = params.values;
 
+        Topic.create(
+            {
+                title,
+                order,
+                rich_text_content,
+                created_on,
+                course_id,
+            }
+        )
+        .then(topics => {
+            console.log('Id of new course:', topics.id);
+        });
+
+    } 
+    const deleteTopics = (params) => {
+        const { topicId } = params 
+        return (
+            Topic.destroy({
+                where: {
+                    id: topicId
+                }
+            })
+            .then(topics => {
+                console.log('Course deleted correctly');
+                return topics
+            })
+        )
+    }
+    const fetchTopicsByLanguage = (params) => {
+        const { languageId } = params 
+        return (
+            Topic.findAll({
+                where: {
+                    language_id: languageId
+                }
+            })
+            .then(topics => {
+                console.log('Topics:', JSON.stringify(courses, null, 4));
+                return topics
+            })
+        )
+    }
+    //USERS
+    const fetchUsers = (params) => {
+        return (
+            User.findAll({
+            })
+            .then(users => {
+                console.log('All Topics:', JSON.stringify(users, null, 4));
+                return users
+            })
+        )
+    }
     return {
         fetchCourses,
         fetchCoursesById,
@@ -127,7 +212,17 @@ module.exports = (function () {
         deleteCourses,
 
         fetchTopicsById,
-        /*
+        fetchTopics,
+        fetchTopicsByCourse,
+        createTopics,
+        deleteTopics,
+        fetchTopicsByLanguage,
+
+        fetchUsers,
+       /* createUsers,
+        updateUsers,
+        deleteUsers,
+        
         updateCourses,
         fetchTopics,
         

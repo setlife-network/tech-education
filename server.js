@@ -150,18 +150,19 @@ app.get('/api/fetchTopicsByLanguage/:language_id', (req, res) => {
     fetchTopicsByLanguage({ languageId: req.params.language_id }).then(res.json)
 })
 
-/* app.get('/api/fetchTopics/:id', apiModules.crud.fetchTopicsByTopicId)
-app.get('/api/fetchTopicsByCourse/:course_id', apiModules.crud.fetchTopicsByCourseId)
-app.post('/api/topics', apiModules.crud.createTopics)
-app.patch('/api/topics', apiModules.crud.updateTopics)
-app.delete('/api/topics', apiModules.crud.deleteTopics)
-app.get('/api/fetchTopicsByLanguage/:language_id', apiModules.crud.fetchTopicsByLanguage) */
-
 //USERS read without hashed_password
-app.get('/api/fetchUsers', apiModules.crud.fetchUsers)
-app.post('/api/users', apiModules.crud.createUsers)
-app.patch('/api/users', apiModules.crud.updateUsers)
-app.delete('/api/users', apiModules.crud.deleteUsers)
+app.get('/api/fetchUsers', (req, res) => {
+    fetchUsers({}).then(res.json)
+})
+app.post('/api/users', (req, res) => {
+    createUsers({ values: req.params }).then(res.json)
+})
+app.patch('/api/users', (req, res) => {
+    updateUsers({ values: req.params }).then(res.json)
+})
+app.delete('/api/users', (req, res) => {
+    deleteUsers({ userId: req.params.id }).then(res.json)
+})
 
 //FEEDBACK
 app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)

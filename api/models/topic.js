@@ -31,21 +31,21 @@ module.exports = (sequelize) => {
             references: 'courses', //table's name no object name
             referencesKey: 'id',
         },
-        createdAt: {
+   /*      createdAt: {
            
             type: Sequelize.DATE,
         },
         updatedAt: {
            
             type: Sequelize.DATE,
-        },
+        }, */
 
 
     },
 
     // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize 
         
     });
