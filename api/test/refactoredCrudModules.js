@@ -4,17 +4,33 @@ const crudRefactored = require('../modules/crudRefactorClean')
 const {
 
     fetchCoursesById,
-    createCourse
+    fetchCourses,
+    createCourse,
+    updateCourses,
+    fetchCoursesByLanguage,
+    deleteCourses,
+    fetchTopicsById
 
 } = crudRefactored
 
-console.log(crudRefactored)
+//console.log(crudRefactored)
 
-createCourse({
+/* fetchCoursesByLanguage({
+    languageId: 2
+})
+deleteCourses({ courseId: 47 })
+fetchCourses({}) */
+
+/* updateCourses({
     values: {
-        courseId: 3,
-        updatedFields: {
-
-        }
+        title: 'Testing testing 1'
+    }
+}) */
+updateCourses({
+    values: {
+        courseId: 41,
+        updatedFields: {title: 'testing update 1' },
     }
 })
+
+fetchTopicsById({ topicId: 3 })

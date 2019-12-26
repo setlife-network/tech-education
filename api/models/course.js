@@ -35,21 +35,21 @@ module.exports = (sequelize) => {
                 key: 'id'
             }
         }, 
-        createdAt: {
+      /*   createdAt: {
             
             type: Sequelize.DATE,
         },
         updatedAt: {
            
             type: Sequelize.DATE,
-        },
+        }, */
 
     },
    
-    Course.create(),
+    //Course.create(),
     // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize
 
     });

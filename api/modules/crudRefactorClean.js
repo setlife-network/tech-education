@@ -12,8 +12,9 @@ const {
 
 module.exports = (function () {
 
+    //COURSES
     const fetchCoursesById = (params) => {
-        console.log(params)
+        const { courseId } = params 
         return (
             Course.findAll({
                 where: {
@@ -26,38 +27,110 @@ module.exports = (function () {
             })
         )
     }
-
+    const fetchCourses = (params) => {
+        return (
+            Course.findAll({
+            })
+            .then(courses => {
+                console.log('All Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
+    }
     const createCourse = (params) => {
-        console.log('params')
-        console.log(params)
-        console.log(params.values)
+        const {
+            title,
+            description,
+            current_version,
+            youtube_link,
+            language_id,
+        } = params.values;
 
         Course.create(
             {
-                title: params.values.title,
-                description: params.values.description,
-                current_version: params.values.current_version,
-                youtube_link: params.values.youtube_link,
-                language_id: params.values.language_id
-    
+                title,
+                description,
+                current_version,
+                youtube_link,
+                language_id,
             }
         )
         .then(course => {
             console.log('Id of new course:', course.id);
         });
-    
-    }
-    
-    return {
-        //fetchCourses,
-        fetchCoursesById,
-        createCourse
-       /*  fetchCoursesByLanguage,
+
+    } 
+    const updateCourses = (params) => {
+        const { courseId, updatedFields } = params.values
         
+        Course.update(
+            { updatedFields },
+            { where: { id: courseId } }
+        )
+        .then(courses => {
+            console.log('All Courses:', JSON.stringify(courses, null, 4));
+            return courses
+        })
+        
+    }
+    const fetchCoursesByLanguage = (params) => {
+        const { languageId } = params 
+        return (
+            Course.findAll({
+                where: {
+                    language_id: languageId
+                }
+            })
+            .then(courses => {
+                console.log('Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
+    }
+    const deleteCourses = (params) => {
+        const { courseId } = params 
+        return (
+            Course.destroy({
+                where: {
+                    id: courseId
+                }
+            })
+            .then(courses => {
+                console.log('Course deleted correctly');
+                return courses
+            })
+        )
+    }
+
+    //TOPICS
+    const fetchTopicsById = (params) => {
+        const { topicId } = params 
+        return (
+            Topic.findAll({
+                where: {
+                    id: topicId
+                }
+            })
+            .then(topics => {
+                console.log('All Topics:', JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+
+    return {
+        fetchCourses,
+        fetchCoursesById,
+        createCourse,
         updateCourses,
+        fetchCoursesByLanguage,
         deleteCourses,
+
+        fetchTopicsById,
+        /*
+        updateCourses,
         fetchTopics,
-        fetchTopicsByTopicId,
+        
         fetchTopicsByCourseId,
         fetchTopicsByLanguage,
         createTopics,
