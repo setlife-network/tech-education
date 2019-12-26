@@ -165,10 +165,18 @@ app.delete('/api/users', (req, res) => {
 })
 
 //FEEDBACK
-app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
-app.post('/api/feedback', apiModules.crud.createFeedback)
-app.patch('/api/feedback', apiModules.crud.updateFeedback)
-app.delete('/api/feedback', apiModules.crud.deleteFeedback)
+app.get('/api/fetchFeedback', (req, res) => {
+    fetchFeedback({}).then(res.json)
+})
+app.post('/api/feedback', (req, res) => {
+    createFeedback({ values: req.params }).then(res.json)
+})
+app.patch('/api/feedback', (req, res) => {
+    updateFeedback({ values: req.params }).then(res.json)
+})
+app.delete('/api/feedback', (req, res) => {
+    deleteFeedback({ userId: req.params.id }).then(res.json)
+})
 
 
 app.listen(port, function () {

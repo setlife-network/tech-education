@@ -160,7 +160,7 @@ module.exports = (function () {
             }
         )
         .then(topics => {
-            console.log('Id of new course:', topics.id);
+            console.log('Id of new topic:', topics.id);
         });
 
     } 
@@ -203,6 +203,52 @@ module.exports = (function () {
             })
         )
     }
+    const createUsers = (params) => {
+        const {
+            email,
+            hashed_password,
+            date_registered,
+            google_id,
+        } = params.values;
+
+        User.create(
+            {
+                email,
+                hashed_password,
+                date_registered,
+                google_id,
+            }
+        )
+        .then(users => {
+            console.log('Id of new user:', users.id);
+        });
+
+    } 
+    const deleteUsers = (params) => {
+        const { userId } = params 
+        return (
+            User.destroy({
+                where: {
+                    id: userId
+                }
+            })
+            .then(users => {
+                console.log('Course deleted correctly');
+                return users
+            })
+        )
+    }
+    //FEEDBACK
+    const fetchFeedback = (params) => {
+        return (
+            Feedback.findAll({
+            })
+            .then(feedbacks => {
+                console.log('All feedbacks:', JSON.stringify(feedbacks, null, 4));
+                return feedbacks
+            })
+        )
+    }
     return {
         fetchCourses,
         fetchCoursesById,
@@ -219,24 +265,11 @@ module.exports = (function () {
         fetchTopicsByLanguage,
 
         fetchUsers,
-       /* createUsers,
-        updateUsers,
-        deleteUsers,
-        
-        updateCourses,
-        fetchTopics,
-        
-        fetchTopicsByCourseId,
-        fetchTopicsByLanguage,
-        createTopics,
-        updateTopics,
-        deleteTopics,
-        fetchUsers,
         createUsers,
-        updateUsers,
         deleteUsers,
+        
         fetchFeedback,
-        createFeedback,
+        /*createFeedback,
         updateFeedback,
         deleteFeedback, */
     };

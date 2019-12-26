@@ -18,11 +18,14 @@ const {
     fetchTopicsByLanguage,
 
     fetchUsers,
-/*     createUsers,
-    updateUsers,
-    deleteUsers, */
+    createUsers,
+    deleteUsers,
+   /* updateUsers,
+     */
+
+    fetchFeedback
 } = crudRefactored
 
 //console.log(crudRefactored)
 
-fetchUsers()
+fetchFeedback()

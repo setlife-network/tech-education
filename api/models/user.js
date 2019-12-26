@@ -28,20 +28,20 @@ module.exports = (sequelize) => {
         google_id: {
             type: Sequelize.STRING(50)
         },
-        createdAt: {
+ /*        createdAt: {
            
             type: Sequelize.DATE,
         },
         updatedAt: {
             
             type: Sequelize.DATE,
-        },
+        }, */
 
     },
 
         // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize
 
     });
