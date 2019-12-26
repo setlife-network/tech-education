@@ -175,7 +175,7 @@ app.patch('/api/feedback', (req, res) => {
     updateFeedback({ values: req.params }).then(res.json)
 })
 app.delete('/api/feedback', (req, res) => {
-    deleteFeedback({ userId: req.params.id }).then(res.json)
+    deleteFeedback({ feedbackId: req.params.id }).then(res.json)
 })
 
 

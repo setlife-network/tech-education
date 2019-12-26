@@ -24,20 +24,20 @@ module.exports = (sequelize) => {
         adapter_direction: {
             type: Sequelize.STRING(50)
         },
-        createdAt: {
+/*         createdAt: {
             
             type: Sequelize.DATE,
         },
         updatedAt: {
            
             type: Sequelize.DATE,
-        },
+        }, */
 
     },
 
     // Model options object
     {
-        timestamps: true,
+        timestamps: false,
         sequelize,
 
     });

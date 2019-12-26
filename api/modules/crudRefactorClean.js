@@ -249,6 +249,44 @@ module.exports = (function () {
             })
         )
     }
+    const createFeedback = (params) => {
+        const {
+            topic_id,
+            user_id,
+            text,
+            date_created,
+            adapter_direction
+        } = params.values;
+
+        Feedback.create(
+            {
+                topic_id,
+                user_id,
+                text,
+                date_created,
+                adapter_direction
+            }
+        )
+        .then(feedbacks => {
+            console.log('Id of new feedback:', feedbacks.id);
+        });
+
+    }
+    const deleteFeedback = (params) => {
+        const { feedbackId } = params 
+        return (
+            Feedback.destroy({
+                where: {
+                    id: feedbackId
+                }
+            })
+            .then(feedbacks => {
+                console.log('Feedback deleted correctly');
+                return feedbacks
+            })
+        )
+    } 
+
     return {
         fetchCourses,
         fetchCoursesById,
@@ -269,9 +307,10 @@ module.exports = (function () {
         deleteUsers,
         
         fetchFeedback,
-        /*createFeedback,
-        updateFeedback,
-        deleteFeedback, */
+        createFeedback,
+        deleteFeedback,
+        /*updateFeedback,
+        */
     };
 
 })();

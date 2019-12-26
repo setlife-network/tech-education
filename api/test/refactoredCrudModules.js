@@ -23,9 +23,11 @@ const {
    /* updateUsers,
      */
 
-    fetchFeedback
+    fetchFeedback,
+    createFeedback,
+    deleteFeedback
 } = crudRefactored
 
 //console.log(crudRefactored)
 
-fetchFeedback()
+deleteFeedback({ feedbackId: 1})
