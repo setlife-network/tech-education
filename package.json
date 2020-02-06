@@ -20,6 +20,7 @@
     "cors": "^2.8.1",
     "dotenv": "^6.2.0",
     "express": "^4.17.1",
+    "fs-extra": "^8.1.0",
     "lodash": "^4.16.4",
     "moment": "^2.15.1",
     "mysql": "github:mysqljs/mysql",

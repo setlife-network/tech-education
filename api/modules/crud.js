@@ -7,7 +7,7 @@ var username = MYSQL.DB_USERNAME;
 var password = MYSQL.DB_PASSWORD;
 var db = MYSQL.DB_NAME;
 
-var crud = module.exports = (function () {
+module.exports = ( function() {
 
     var pool = mysql.createPool({
         connectionLimit: 10,
@@ -386,6 +386,6 @@ var crud = module.exports = (function () {
         fetchFeedback,
         createFeedback,
         updateFeedback,
-        deleteFeedback,
-    };
+        deleteFeedback
+    }
 })();

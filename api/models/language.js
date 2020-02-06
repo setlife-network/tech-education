@@ -15,16 +15,25 @@ module.exports = (sequelize) => {
             allowNull: false,
 
         },
+/*         createdAt: {
+            
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        }, */
 
     },
 
     // Model options object
     {
+        timestamps: false,
         sequelize 
 
     });
     Language.associate = (models) => {
-        Language.hasMany(models.Course, { foreignKey: 'id' });
-    };
+        Language.hasMany(models.Course);
+    };  
     return Language;
 };

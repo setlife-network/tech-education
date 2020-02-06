@@ -24,6 +24,7 @@ const sequelize = new Sequelize(
         },
         charset: 'utf8',
         collate: 'utf8_unicode_ci',
+        timestamps: false,
 
     }
 );
@@ -37,7 +38,12 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-module.exports = {
+sequelize.sync({ force: true })
+.then(() => {
+    console.log('Tables created');
+})
+
+db = {
     sequelize,
     models: {
         User: require('./user')(sequelize),
@@ -47,3 +53,5 @@ module.exports = {
         Feedback: require('./feedback')(sequelize),
     }
 };
+
+module.exports = db;

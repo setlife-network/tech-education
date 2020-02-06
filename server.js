@@ -72,41 +72,114 @@ io.on('connection', function (socket) {
 
 const apiModules = require('./api/modules')
 
+const {
+    fetchCourses,
+    fetchCoursesById,
+    createCourses,
+    updateCourses,
+    deleteCourses,
+    fetchCoursesByLanguage,
+
+    fetchTopicsByLanguage,
+    fetchTopicsByCourseId,
+    fetchTopicsByTopicId,
+    fetchTopics,
+    createTopics,
+    updateTopics,
+    deleteTopics,
+
+    fetchUsers,
+    createUsers,
+    updateUsers,
+    deleteUsers,
+
+    fetchFeedback,
+    createFeedback,
+    updateFeedback,
+    deleteFeedback,
+
+} = apiModules.crud
 
 //COURSES
-app.get('/api/fetchCourses', apiModules.crud.fetchCourses)
-app.get('/api/fetchCourses/:id', apiModules.crud.fetchCoursesById)
-app.post('/api/courses', apiModules.crud.createCourses)
-app.patch('/api/courses', apiModules.crud.updateCourses)
-app.delete('/api/courses', apiModules.crud.deleteCourses)
-app.get('/api/fetchCoursesByLanguage/:language_id', apiModules.crud.fetchCoursesByLanguage)
+app.get('/api/fetchCourses/:id', (req, res) => {
+    fetchCoursesById({ courseId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchCourses', (req, res) => {
+    fetchCourses({}).then(res.json)
+})
+app.post('/api/courses', (req, res) => {
+    createCourses({ values: req.params }).then(res.json)
+})
+app.patch('/api/courses', (req, res) => {
+    updateCourses({ 
+        values: {
+            courseId: req.params.course_id,
+            updateFields: req.body
+        }
+    })
+    .then(res.json)
+})
+app.delete('/api/courses', (req, res) => {
+    deleteCourses({ courseId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchCoursesByLanguage/:language_id', (req, res) => {
+    fetchCoursesByLanguage({ languageId: req.params.language_id }).then(res.json)
+})
 
 
 //TOPICS
-app.get('/api/fetchTopics', apiModules.crud.fetchTopics)
-app.get('/api/fetchTopics/:id', apiModules.crud.fetchTopicsByTopicId)
-app.get('/api/fetchTopicsByCourse/:course_id', apiModules.crud.fetchTopicsByCourseId)
-app.post('/api/topics', apiModules.crud.createTopics)
-app.patch('/api/topics', apiModules.crud.updateTopics)
-app.delete('/api/topics', apiModules.crud.deleteTopics)
-app.get('/api/fetchTopicsByLanguage/:language_id', apiModules.crud.fetchTopicsByLanguage)
+app.get('/api/fetchTopics/:id', (req, res) => {
+    fetchTopicsById({ topicId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchTopicsByCourse/:course_id', (req, res) => {
+    fetchTopicsByCourse({ courseId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchTopics', (req, res) => {
+    fetchTopics({}).then(res.json)
+})
+app.post('/api/topics', (req, res) => {
+    createTopics({ values: req.params }).then(res.json)
+})
+app.patch('/api/topics', (req, res) => {
+    updateTopics({ values: req.params }).then(res.json)
+})
+app.delete('/api/topics', (req, res) => {
+    deleteTopics({ topicId: req.params.id }).then(res.json)
+})
+app.get('/api/fetchTopicsByLanguage/:language_id', (req, res) => {
+    fetchTopicsByLanguage({ languageId: req.params.language_id }).then(res.json)
+})
 
 //USERS read without hashed_password
-app.get('/api/fetchUsers', apiModules.crud.fetchUsers)
-app.post('/api/users', apiModules.crud.createUsers)
-app.patch('/api/users', apiModules.crud.updateUsers)
-app.delete('/api/users', apiModules.crud.deleteUsers)
+app.get('/api/fetchUsers', (req, res) => {
+    fetchUsers({}).then(res.json)
+})
+app.post('/api/users', (req, res) => {
+    createUsers({ values: req.params }).then(res.json)
+})
+app.patch('/api/users', (req, res) => {
+    updateUsers({ values: req.params }).then(res.json)
+})
+app.delete('/api/users', (req, res) => {
+    deleteUsers({ userId: req.params.id }).then(res.json)
+})
 
 //FEEDBACK
-app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
-app.post('/api/feedback', apiModules.crud.createFeedback)
-app.patch('/api/feedback', apiModules.crud.updateFeedback)
-app.delete('/api/feedback', apiModules.crud.deleteFeedback)
+app.get('/api/fetchFeedback', (req, res) => {
+    fetchFeedback({}).then(res.json)
+})
+app.post('/api/feedback', (req, res) => {
+    createFeedback({ values: req.params }).then(res.json)
+})
+app.patch('/api/feedback', (req, res) => {
+    updateFeedback({ values: req.params }).then(res.json)
+})
+app.delete('/api/feedback', (req, res) => {
+    deleteFeedback({ feedbackId: req.params.id }).then(res.json)
+})
 
-//message when the server is running
-db.sequelize.sync().then(function() {
-    app.listen(port, function () {
-        console.log('SetLife-ReactWithApi: Server running on port ' + port);
+
+app.listen(port, function () {
+    console.log('SetLife-ReactWithApi: Server running on port ' + port);
     
-    });
 });
