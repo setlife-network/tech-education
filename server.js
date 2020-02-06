@@ -168,7 +168,7 @@ app.delete('/api/users', (req, res) => {
 app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
 app.post('/api/feedback', apiModules.crud.createFeedback)
 app.patch('/api/feedback', apiModules.crud.updateFeedback)
-app.delete('/api/feedback', apiModules.crud.deleteFeedback) */
+app.delete('/api/feedback', apiModules.crud.deleteFeedback)
 
 
 db.sequelize.sync({ force: true });
