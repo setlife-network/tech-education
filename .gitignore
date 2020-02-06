@@ -64,3 +64,6 @@ typings/
 
 # Private notes
 Notes.md
+
+# Mac Filesystem
+.DS_Store
