@@ -13,23 +13,39 @@ const {
 module.exports = (function () {
 
     //USER
-    User.findAll().then(users => {
-        console.log('All users:', JSON.stringify(users, null, 4));
-    });
-    User.create(
-        {
-            id: '',
-            email: 'rebecaa3333a@rebeca.com',
-            hashed_password: '',
-            date_registered: '',
-            google_id: '',
+    const fetchUsers = (req, res ) => {
+        return (
+            User.findAll()
+            .then(users => {
+                console.log('All users:', JSON.stringify(users, null, 4));
+            })
+        )
+    }
 
+    const createUsers = ({ userEmail, userHashedPassword, userGoogleId }) => {
+        User.create(
+            {
+                email: user.email,
+                hashed_password: user.hashed_password,
+                google_id: user.google_id,
+    
+            }
+        )
+        .then(user => {
+            console.log('User auto-generated ID:', user.id);
+        });
+    }
 
-        }
-    )
-    .then(user => {
-        console.log('User auto-generated ID:', user.id);
-    });
+    const updateUsers = ({ values }) => {
+        User.update(
+            {
+                id: userId,
+    
+            }
+        ).then(user => {
+            console.log('User updated correctly', user.id);
+        });
+    } 
 
     //COURSE
     const fetchCoursesById = ({ courseId }) => {
@@ -118,6 +134,7 @@ module.exports = (function () {
     return {
         //fetchCourses,
         fetchCoursesById,
+        fetchUsers,
        /*  fetchCoursesByLanguage,
         createCourses,
         updateCourses,

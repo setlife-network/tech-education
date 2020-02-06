@@ -1,4 +1,6 @@
 require('dotenv').config() //plugin environment variables
+// Required to fix CORS errors when making requests
+var cors = require('cors');
 var sequelize = require('./api/models').sequelize;
 var express = require('express');
 var path = require('path'); // path module to work with directories and files
@@ -34,9 +36,6 @@ app.get('*', function (req, res, next) {
 
     });
 });
-
-// Required to fix CORS errors when making requests
-var cors = require('cors');
 
 var whitelist = [
     'http://localhost:8080',
@@ -164,8 +163,17 @@ app.delete('/api/users', (req, res) => {
     deleteUsers({ userId: req.params.id }).then(res.json)
 })
 
-//FEEDBACK
-app.get('/api/fetchFeedback', (req, res) => {
+// FEEDBACK
+
+app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
+app.post('/api/feedback', apiModules.crud.createFeedback)
+app.patch('/api/feedback', apiModules.crud.updateFeedback)
+app.delete('/api/feedback', apiModules.crud.deleteFeedback) */
+
+
+db.sequelize.sync({ force: true });
+
+/* app.get('/api/fetchFeedback', (req, res) => {
     fetchFeedback({}).then(res.json)
 })
 app.post('/api/feedback', (req, res) => {
@@ -176,7 +184,8 @@ app.patch('/api/feedback', (req, res) => {
 })
 app.delete('/api/feedback', (req, res) => {
     deleteFeedback({ feedbackId: req.params.id }).then(res.json)
-})
+}) */
+
 
 
 app.listen(port, function () {
