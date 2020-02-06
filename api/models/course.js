@@ -35,10 +35,18 @@ module.exports = (sequelize) => {
                 key: 'id'
             }
         }, 
+      /*   createdAt: {
+            
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        }, */
 
     },
    
-
+    //Course.create(),
     // Model options object
     {
         timestamps: false,

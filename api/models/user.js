@@ -28,6 +28,14 @@ module.exports = (sequelize) => {
         google_id: {
             type: Sequelize.STRING(50)
         },
+ /*        createdAt: {
+           
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+            
+            type: Sequelize.DATE,
+        }, */
 
     },
 
@@ -38,7 +46,7 @@ module.exports = (sequelize) => {
 
     });
     User.associate = (models) => {
-        User.hasMany(models.Feedback, { foreignKey: 'id' });
+        User.hasMany(models.Feedback);
     };
 
     return User;

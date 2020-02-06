@@ -15,6 +15,14 @@ module.exports = (sequelize) => {
             allowNull: false,
 
         },
+/*         createdAt: {
+            
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        }, */
 
     },
 
@@ -26,6 +34,6 @@ module.exports = (sequelize) => {
     });
     Language.associate = (models) => {
         Language.hasMany(models.Course);
-    }; 
+    };  
     return Language;
 };

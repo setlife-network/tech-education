@@ -30,7 +30,15 @@ module.exports = (sequelize) => {
             type: Sequelize.INTEGER,
             references: 'courses', //table's name no object name
             referencesKey: 'id',
-        }
+        },
+   /*      createdAt: {
+           
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        }, */
 
 
     },
@@ -44,7 +52,7 @@ module.exports = (sequelize) => {
 
     Topic.associate = models => {
         Topic.belongsTo(models.Course); 
-        Topic.hasMany(models.Feedback, { foreignKey: 'id' });
+        Topic.hasMany(models.Feedback);
     };
 
 

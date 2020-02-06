@@ -15,15 +15,23 @@ module.exports = (sequelize) => {
             allowNull: true,
 
         },
-        
+         
         date_created: {
             type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW 
 
-        },
+        }, 
         adapter_direction: {
             type: Sequelize.STRING(50)
         },
+/*         createdAt: {
+            
+            type: Sequelize.DATE,
+        },
+        updatedAt: {
+           
+            type: Sequelize.DATE,
+        }, */
 
     },
 
