@@ -37,7 +37,7 @@ Get familiar with the **setlife** folder structure
 
 # Usage
 
-## Development
+## Development (Frontend)
 
 React+Redux front-end development files are served from webpack-dev-server, configured with webpack.config.js, and hot-reloaded automatically on every save.
 
@@ -49,11 +49,11 @@ this command will bundle up files for webpack-dev-sever and host them on:
 
 http://localhost:3000
 
+## Development (Backend)
 
 to start the Node+Express application sourced in the `/api` folder run:
 
     node server
-
 
 **_Hot-reloading is only enabled for files in the /web folder. Changes to any files in the /api folder will usually require a server restart (press `CTRL + c` in the terminal to stop the server)_**
 
@@ -62,6 +62,10 @@ If you have `nodemon` installed you can run:
     nodemon server
 
 to enable hot-reloading of backend files
+
+The server should be running at:
+
+http://localhost:4000
 
 ### Testing in Development
 
@@ -91,7 +95,7 @@ Testing the production bundle can be done by running an express server from serv
 	
 This script will serve your app from the production bundle in the /build folder. To access the app go to 
 
-	http://localhost:3000
+	http://localhost:4000
 
 **_Make sure to terminate the server when finished testing_**
 
