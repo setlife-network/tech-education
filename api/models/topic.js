@@ -8,17 +8,14 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-            
         },
         title: {
             type: Sequelize.STRING(250),
             unique: true,
             allowNull: false,
-
         },
         order: {
             type: Sequelize.INTEGER,
-
         },
         rich_text_content: {
             type: Sequelize.TEXT('long'),
@@ -47,14 +44,12 @@ module.exports = (sequelize) => {
     {
         timestamps: false,
         sequelize 
-        
     });
 
     Topic.associate = models => {
         Topic.belongsTo(models.Course); 
         Topic.hasMany(models.Feedback);
     };
-
 
     return Topic;
 };

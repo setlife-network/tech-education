@@ -39,7 +39,6 @@ module.exports = (sequelize) => {
     {
         timestamps: false,
         sequelize,
-
     });
 
     Feedback.associate = models => {

@@ -2,13 +2,13 @@ const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
     class Course extends Sequelize.Model {}
+
     Course.init({
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-   
         },
         title: {
             type: Sequelize.STRING(250),
@@ -46,19 +46,16 @@ module.exports = (sequelize) => {
 
     },
    
-    //Course.create(),
     // Model options object
     {
         timestamps: false,
         sequelize
-
     });
 
 
     Course.associate = (models) => {
         Course.hasMany(models.Topic);
         Course.belongsTo(models.Language);
-
     }; 
 
     return Course;

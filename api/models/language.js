@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
     class Language extends Sequelize.Model {}
+    
     Language.init({
         id: {
             type: Sequelize.INTEGER,
@@ -30,10 +31,11 @@ module.exports = (sequelize) => {
     {
         timestamps: false,
         sequelize 
-
     });
+
     Language.associate = (models) => {
         Language.hasMany(models.Course);
-    };  
+    };
+
     return Language;
 };

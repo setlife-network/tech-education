@@ -38,19 +38,19 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-sequelize.sync({ force: true })
-.then(() => {
-    console.log('Tables created');
-})
+// sequelize.sync({ force: true })
+// .then(() => {
+//     console.log('Tables created');
+// })
 
 db = {
     sequelize,
     models: {
-        User: require('./user')(sequelize),
-        Topic: require('./topic')(sequelize),
-        Course: require('./course')(sequelize),
-        Language: require('./language')(sequelize),
-        Feedback: require('./feedback')(sequelize),
+        User: require('./User')(sequelize),
+        Topic: require('./Topic')(sequelize),
+        Course: require('./Course')(sequelize),
+        Language: require('./Language')(sequelize),
+        Feedback: require('./Feedback')(sequelize),
     }
 };
 

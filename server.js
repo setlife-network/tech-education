@@ -1,25 +1,19 @@
 require('dotenv').config() //plugin environment variables
 // Required to fix CORS errors when making requests
-var cors = require('cors');
-var sequelize = require('./api/models').sequelize;
-var express = require('express');
-var path = require('path'); // path module to work with directories and files
-var fs = require('fs'); //files module
+const express = require('express');
+const path = require('path'); // path module to work with directories and files
+const fs = require('fs'); //files module
 
-var moment = require('moment'); //npm install moment -- for dates and times
+const moment = require('moment'); //npm install moment -- for dates and times
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const { MYSQL } = require('./config/credentials');
 
+const app = express();
 
-var app = express();
+const http = require('http').createServer(app); //chat
+const io = require('socket.io')(http);//chat
 
-var http = require('http').createServer(app); //chat
-var io = require('socket.io')(http);//chat
-
-var isProduction = process.env.NODE_ENV === 'production'; // fast feedback and loops
-var port = isProduction ? process.env.PORT : 4000; //use port 3000
-
+const isProduction = process.env.NODE_ENV === 'production'; // fast feedback and loops
+const port = isProduction ? process.env.PORT : 4000; //use port 3000
 
 app.use(express.static(__dirname + '/build')); //middleware for static files (images, css, etc) 
 app.use(bodyParser.json());
@@ -30,21 +24,22 @@ app.get('*', function (req, res, next) {
         return next();
     }
 
-
     fs.readFile(__dirname + '/build/index.html', 'utf8', function (err, text) {
         res.send(text);
 
     });
 });
 
-var whitelist = [
+const cors = require('cors');
+
+const whitelist = [
     'http://localhost:8080',
     'http://localhost:3000',
     'https://tech-education.herokuapp.com/'
 ];
-var corsOptions = {
+const corsOptions = {
     origin: function(origin, callback) {
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+        const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
         callback(null, originIsWhitelisted);
     },
     credentials: true,
@@ -54,7 +49,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 
-//chat 
+// Websocket testing (for future use) 
 app.get('/api/chat/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 
@@ -63,7 +58,6 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
     });
 });
-
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
     });
@@ -73,24 +67,24 @@ const apiModules = require('./api/modules')
 
 const {
     fetchCourses,
-    fetchCoursesById,
-    createCourses,
-    updateCourses,
-    deleteCourses,
+    fetchCourseById,
     fetchCoursesByLanguage,
+    createCourse,
+    updateCourse,
+    deleteCourse,
 
-    fetchTopicsByLanguage,
-    fetchTopicsByCourseId,
-    fetchTopicsByTopicId,
     fetchTopics,
-    createTopics,
-    updateTopics,
-    deleteTopics,
+    fetchTopicsByLanguage,
+    fetchTopicsByCourse,
+    fetchTopicsById,
+    createTopic,
+    updateTopic,
+    deleteTopic,
 
     fetchUsers,
-    createUsers,
-    updateUsers,
-    deleteUsers,
+    createUser,
+    updateUser,
+    deleteUser,
 
     fetchFeedback,
     createFeedback,
@@ -99,96 +93,94 @@ const {
 
 } = apiModules.crud
 
-//COURSES
-app.get('/api/fetchCourses/:id', (req, res) => {
-    fetchCoursesById({ courseId: req.params.id }).then(res.json)
-})
+// Courses
 app.get('/api/fetchCourses', (req, res) => {
-    fetchCourses({}).then(res.json)
+    fetchCourses({}).then(data => res.json(data))
 })
-app.post('/api/courses', (req, res) => {
-    createCourses({ values: req.params }).then(res.json)
-})
-app.patch('/api/courses', (req, res) => {
-    updateCourses({ 
-        values: {
-            courseId: req.params.course_id,
-            updateFields: req.body
-        }
-    })
-    .then(res.json)
-})
-app.delete('/api/courses', (req, res) => {
-    deleteCourses({ courseId: req.params.id }).then(res.json)
+app.get('/api/fetchCourse/:id', (req, res) => {
+    fetchCourseById({ courseId: req.params.id }).then(data => res.json(data))
 })
 app.get('/api/fetchCoursesByLanguage/:language_id', (req, res) => {
-    fetchCoursesByLanguage({ languageId: req.params.language_id }).then(res.json)
+    fetchCoursesByLanguage({ languageId: req.params.language_id }).then(data => res.json(data))
+})
+app.post('/api/courses', (req, res) => {
+    createCourse({ values: req.body }).then(data => res.json(data))
+})
+app.patch('/api/courses/:id', (req, res) => {
+    updateCourse({ 
+        courseId: req.params.id,
+        updateFields: req.body
+    })
+    .then(data => res.json(data))
+})
+app.delete('/api/courses/:id', (req, res) => {
+    deleteCourse({ courseId: req.params.id }).then(data => res.json(data))
 })
 
-
-//TOPICS
+// Topics
+app.get('/api/fetchTopics', (req, res) => {
+    fetchTopics({}).then(data => res.json(data))
+})
 app.get('/api/fetchTopics/:id', (req, res) => {
-    fetchTopicsById({ topicId: req.params.id }).then(res.json)
+    fetchTopicsById({ topicId: req.params.id }).then(data => res.json(data))
 })
 app.get('/api/fetchTopicsByCourse/:course_id', (req, res) => {
-    fetchTopicsByCourse({ courseId: req.params.id }).then(res.json)
-})
-app.get('/api/fetchTopics', (req, res) => {
-    fetchTopics({}).then(res.json)
-})
-app.post('/api/topics', (req, res) => {
-    createTopics({ values: req.params }).then(res.json)
-})
-app.patch('/api/topics', (req, res) => {
-    updateTopics({ values: req.params }).then(res.json)
-})
-app.delete('/api/topics', (req, res) => {
-    deleteTopics({ topicId: req.params.id }).then(res.json)
+    fetchTopicsByCourse({ courseId: req.params.id }).then(data => res.json(data))
 })
 app.get('/api/fetchTopicsByLanguage/:language_id', (req, res) => {
-    fetchTopicsByLanguage({ languageId: req.params.language_id }).then(res.json)
+    fetchTopicsByLanguage({ languageId: req.params.language_id }).then(data => res.json(data))
+})
+app.post('/api/topics', (req, res) => {
+    createTopic({ values: req.body }).then(data => res.json(data))
+})
+app.patch('/api/topics/:id', (req, res) => {
+    updateTopic({ 
+        topicId: req.params.id,
+        updateFields: req.body
+    })
+    .then(data => res.json(data))
+})
+app.delete('/api/topics/:id', (req, res) => {
+    deleteTopic({ topicId: req.params.id }).then(data => res.json(data))
 })
 
-//USERS read without hashed_password
+// Users
 app.get('/api/fetchUsers', (req, res) => {
-    fetchUsers({}).then(res.json)
+    fetchUsers({}).then(data => res.json(data))
 })
 app.post('/api/users', (req, res) => {
-    createUsers({ values: req.params }).then(res.json)
+    createUser({ values: req.body }).then(data => res.json(data))
 })
-app.patch('/api/users', (req, res) => {
-    updateUsers({ values: req.params }).then(res.json)
+app.patch('/api/users/:id', (req, res) => {
+    updateUser({ 
+        userId: req.params.id,
+        updateFields: req.body
+    })
+    .then(data => res.json(data))
 })
-app.delete('/api/users', (req, res) => {
-    deleteUsers({ userId: req.params.id }).then(res.json)
+app.delete('/api/users/:id', (req, res) => {
+    deleteUser({ userId: req.params.id }).then(data => res.json(data))
 })
 
-// FEEDBACK
-
-app.get('/api/fetchFeedback', apiModules.crud.fetchFeedback)
-app.post('/api/feedback', apiModules.crud.createFeedback)
-app.patch('/api/feedback', apiModules.crud.updateFeedback)
-app.delete('/api/feedback', apiModules.crud.deleteFeedback)
-
-
-db.sequelize.sync({ force: true });
-
-/* app.get('/api/fetchFeedback', (req, res) => {
-    fetchFeedback({}).then(res.json)
+// Feedbacks
+app.get('/api/fetchFeedback', (req, res) => {
+    fetchFeedback({}).then(data => res.json(data))
 })
 app.post('/api/feedback', (req, res) => {
-    createFeedback({ values: req.params }).then(res.json)
+    createFeedback({ values: req.params }).then(data => res.json(data))
 })
-app.patch('/api/feedback', (req, res) => {
-    updateFeedback({ values: req.params }).then(res.json)
+app.patch('/api/feedback/:id', (req, res) => {
+    updateFeedback({ 
+        feedbackId: req.params.id,
+        updateFields: req.body
+    })
+    .then(data => res.json(data))
 })
-app.delete('/api/feedback', (req, res) => {
-    deleteFeedback({ feedbackId: req.params.id }).then(res.json)
-}) */
-
-
+app.delete('/api/feedback/:id', (req, res) => {
+    deleteFeedback({ feedbackId: req.params.id }).then(data => res.json(data))
+})
 
 app.listen(port, function () {
-    console.log('SetLife-ReactWithApi: Server running on port ' + port);
+    console.log('TechEducation-ReactWithApi: Server running on port ' + port);
     
 });

@@ -8,22 +8,18 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-
         },
         email: {
             type: Sequelize.STRING(250),
             unique: true,
             allowNull: false,
-
         },
         hashed_password: {
             type: Sequelize.STRING(250),
-
         },
         date_registered: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW,
-
         },
         google_id: {
             type: Sequelize.STRING(50)
@@ -43,8 +39,8 @@ module.exports = (sequelize) => {
     {
         timestamps: false,
         sequelize
-
     });
+
     User.associate = (models) => {
         User.hasMany(models.Feedback);
     };
