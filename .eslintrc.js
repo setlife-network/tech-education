@@ -1,12 +1,5 @@
 module.exports = {
-    "parser": "babel-eslint",
-    settings: {
-        'import/resolver': {
-            webpack: {
-                config: './config/webpack.common.js'
-            }
-        }
-    },
+    'parser': 'babel-eslint',
     'extends': 'airbnb',
     'plugins': [
         'babel'
@@ -34,6 +27,7 @@ module.exports = {
         'import/first': 'off',
         'import/no-named-as-default': 'off',
         'import/no-named-default': 'off',
+        'import/order': 'off',
         'jsx-a11y/anchor-has-content': ['off'],
         'jsx-a11y/img-has-alt': ['off'],
         'jsx-a11y/no-static-element-interactions': 'off',
@@ -51,6 +45,7 @@ module.exports = {
         'no-case-declarations': 'off',
         'no-else-return': 'off',
         'no-floating-decimal': 'off',
+        'no-multi-assign': 'off',
         'no-nested-ternary': 'off',
         'no-path-concat': 'off',
         'no-param-reassign': 'off',
@@ -79,7 +74,7 @@ module.exports = {
         'react/forbid-prop-types': ['off'],
         'react/jsx-filename-extension': ['off'],
         'react/jsx-space-before-closing': ['off'],
-        'react/jsx-indent': ['error', 4, { 'MemberExpression': 0 }],
+        'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
         'react/no-danger': ['off'],
         'react/no-unescaped-entities': ['off'],

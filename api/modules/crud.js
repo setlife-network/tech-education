@@ -1,321 +1,379 @@
-const mysql = require('mysql');
-const { MYSQL } = require('../../config/credentials');
+const sequelize = require('../models');
 
-//declaration enviroment variables:
-var host = MYSQL.DB_HOST;
-var username = MYSQL.DB_USERNAME;
-var password = MYSQL.DB_PASSWORD;
-var db = MYSQL.DB_NAME;
+const { models } = sequelize;
+const { 
+    User,
+    Course,
+    Topic, 
+    Language,
+    Feedback 
+} = models;
 
-var crud = module.exports = (function () {
+module.exports = (function () {
 
-    var pool = mysql.createPool({
-        connectionLimit: 10,
-        host: host,
-        user: username,
-        password: password,
-        database: db,
-    });
+    // Courses
+    const fetchCourseById = (params) => {
+        const { courseId } = params
 
-    const fetchCourses = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query('SELECT * FROM Courses', function (error, rows, fields) {
-                    res.json(rows)
-                    connection.release()
-                })
-
-            }
-        })
-
-
+        return (
+            Course.findAll({
+                where: {
+                    id: courseId
+                }
+            })
+            .then(courses => {
+                console.log('All Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
     }
-    const fetchCoursesById = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                const courseId = req.params.id
-                const queryString = 'SELECT * FROM Courses WHERE id = ?'
-                connection.query(queryString, [courseId], (err, rows, fields) => {
-                    res.json(rows)
-                    connection.release();
-                })
-
-            }
-
-        })
-
+    const fetchCourses = (params) => {
+        return (
+            Course.findAll({
+            })
+            .then(courses => {
+                console.log('All Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
     }
-    const createCourses = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query(
-                    'INSERT INTO Courses(id, title, description, current_version, youtube_link) values(?,?,?,?,?)',
-                    [
-                        req.body.id,
-                        req.body.title,
-                        req.body.description,
-                        req.body.current_version,
-                        req.body.youtube_link
-                    ],
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
+    const fetchCoursesByLanguage = (params) => {
+        const { languageId } = params
+        
+        return (
+            Course.findAll({
+                where: {
+                    language_id: languageId
+                }
+            })
+            .then(courses => {
+                console.log('Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
+    }
+    const createCourse = (params) => {
+        const {
+            title,
+            description,
+            current_version,
+            youtube_link,
+            language_id,
+        } = params.values;
 
-    }
-    const updateCourses = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query('UPDATE Courses SET title= ?, description=? WHERE id=?',
-                    [
-                        req.body.title,
-                        req.body.description,
-                        req.body.id
-                    ],
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
-    }
-    const deleteCourses = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                const id = req.body.id
-                var queryString = 'DELETE FROM Courses WHERE id = ?';
-                connection.query(queryString, [id], (err, rows, fields) => {
-                    res.end(JSON.stringify(rows));
-                    connection.release();
-                })
-            }
-        })
+        return (
+            Course.create(
+                {
+                    title,
+                    description,
+                    current_version,
+                    youtube_link,
+                    language_id,
+                }
+            )
+            .then(course => {
+                console.log('Id of new course:', course.id);
+                return course
+            })
+        )
 
     }
-    const fetchTopics = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                const courseId = req.params.id
-                var queryString = 'SELECT * FROM Topics';
-                connection.query(queryString, [courseId], (err, rows, fields) => {
-                    res.json(rows)
-                    connection.release();
-                })
-            }
-        })
+    const updateCourse = (params) => {
+        const { courseId, updatedFields } = params
+        
+        return (
+            Course.update(
+                { updatedFields },
+                { where: { id: courseId } }
+            )
+            .then(courses => {
+                console.log('All Courses:', JSON.stringify(courses, null, 4));
+                return courses
+            })
+        )
     }
-    const createTopics = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query(
-                    'INSERT INTO Topics(id, title, order, rich_text_content, course_id) values (?,?,?,?,?)',
-                    [
-                        req.body.id,
-                        req.body.title,
-                        req.body.order,
-                        req.body.rich_text_content,
-                        req.body.course_id
-                    ],
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    }
-                )
-            }
-        })
-    }
-    const updateTopics = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query('UPDATE Topics SET title= ? WHERE id=?',
-                    [
-                        req.body.title,
-                        req.body.id
-                    ], (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
-    }
-    const deleteTopics = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                const id = req.body.id
-                var queryString = 'DELETE FROM Topics WHERE id = ?';
-                connection.query(queryString, [id], (err, rows, fields) => {
-                    res.end(JSON.stringify(rows));
-                    connection.release();
-                })
-            }
-        })
-    }
-    const fetchUsers = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                var queryString = 'SELECT id, email, date_registered, google_id FROM Users';
-                connection.query(queryString, (err, rows, fields) => {
-                    res.json(rows)
-                    connection.release();
-                })
-            }
-        })
+    const deleteCourse = (params) => {
+        const { courseId } = params
 
+        return (
+            Course.destroy({
+                where: {
+                    id: courseId
+                }
+            })
+            .then(courses => {
+                console.log('Course deleted correctly');
+                return courses
+            })
+        )
+    }
+
+    // Topics
+    const fetchTopics = (params) => {
+        return (
+            Topic.findAll({
+            })
+            .then(topics => {
+                console.log('All Topics:', JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+    const fetchTopicsById = (params) => {
+        const { topicId } = params
+
+        return (
+            Topic.findAll({
+                where: {
+                    id: topicId
+                }
+            })
+            .then(topics => {
+                console.log('All Topics:', JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+    const fetchTopicsByCourse = (params) => {
+        const { courseId } = params
+
+        return (
+            Topic.findAll({
+                where: {
+                    course_id: courseId
+                }
+            })
+            .then(topics => {
+                console.log('All Topics by Course:', courseId, JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+    }
+    const fetchTopicsByLanguage = (params) => {
+        const { languageId } = params
+
+        return (
+            Topic.findAll({
+                where: {
+                    language_id: languageId
+                }
+            })
+            .then(topics => {
+                console.log('Topics:', JSON.stringify(courses, null, 4));
+                return topics
+            })
+        )
+    }
+    const createTopic = (params) => {
+        const {
+            title,
+            order,
+            rich_text_content,
+            created_on,
+            course_id,
+        } = params.values;
+
+        return (
+            Topic.create(
+                {
+                    title,
+                    order,
+                    rich_text_content,
+                    created_on,
+                    course_id,
+                }
+            )
+            .then(topics => {
+                console.log('Id of new topic:', topics.id);
+            })
+        )
+    }
+    const updateTopic = (params) => {
+        const { topicId, updatedFields } = params
+        
+        return (
+            Topic.update(
+                { updatedFields },
+                { where: { id: topicId } }
+            )
+            .then(topics => {
+                console.log('All Topics:', JSON.stringify(topics, null, 4));
+                return topics
+            })
+        )
+        
+    }
+    const deleteTopic = (params) => {
+        const { topicId } = params
+        
+        return (
+            Topic.destroy({
+                where: {
+                    id: topicId
+                }
+            })
+            .then(topics => {
+                console.log('Course deleted correctly');
+                return topics
+            })
+        )
+    }
+
+    // Users
+    const fetchUsers = (params) => {
+        return (
+            User.findAll({
+            })
+            .then(users => {
+                console.log('All Topics:', JSON.stringify(users, null, 4));
+                return users
+            })
+        )
+    }
+    const createUser = (params) => {
+        const {
+            email,
+            hashed_password,
+            date_registered,
+            google_id,
+        } = params.values;
+
+        return (
+            User.create(
+                {
+                    email,
+                    hashed_password,
+                    date_registered,
+                    google_id,
+                }
+            )
+            .then(users => {
+                console.log('Id of new user:', users.id);
+            })
+        )
 
     }
-    const createUsers = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query(
-                    'INSERT INTO Users(id, email, hashed_password, date_registered, google_id ) values (?,?,?,?,?)',
-                    [
-                        req.body.id,
-                        req.body.email,
-                        req.body.hashed_password,
-                        req.body.date_registered,
-                        req.body.google_id
-                    ],
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
+    const updateUser = (params) => {
+        const { userId, updatedFields } = params
+        
+        return (
+            User.update(
+                { updatedFields },
+                { where: { id: userId } }
+            )
+            .then(users => {
+                console.log('All Users:', JSON.stringify(users, null, 4));
+                return users
+            })
+        )
+        
     }
-    const updateUsers = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query('UPDATE Users SET email= ? WHERE id=?', 
-                    [
-                        req.body.email, 
-                        req.body.id
-                    
-                    ], 
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
+    const deleteUser = (params) => {
+        const { userId } = params 
+        return (
+            User.destroy({
+                where: {
+                    id: userId
+                }
+            })
+            .then(users => {
+                console.log('Course deleted correctly');
+                return users
+            })
+        )
     }
-    const deleteUsers = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                var queryString = 'DELETE FROM Users WHERE id = ?';
-                connection.query(queryString, [req.body.id], (err, rows, fields) => {
-                    res.end(JSON.stringify(rows));
-                    connection.release();
-                })
-            }
-        })
+
+    // Feedbacks
+    const fetchFeedback = (params) => {
+        return (
+            Feedback.findAll({
+            })
+            .then(feedbacks => {
+                console.log('All feedbacks:', JSON.stringify(feedbacks, null, 4));
+                return feedbacks
+            })
+        )
     }
-    const fetchFeedback = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                var queryString = 'SELECT * FROM Feedback';
-                connection.query(queryString, (err, rows, fields) => {
-                    res.json(rows)
-                    connection.release();
-                })
-            }
-        })
+    const createFeedback = (params) => {
+        const {
+            topic_id,
+            user_id,
+            text,
+            date_created,
+            adapter_direction
+        } = params.values;
+
+        return (
+            Feedback.create(
+                {
+                    topic_id,
+                    user_id,
+                    text,
+                    date_created,
+                    adapter_direction
+                }
+            )
+            .then(feedbacks => {
+                console.log('Id of new feedback:', feedbacks.id);
+            })
+        )
 
     }
-    const createFeedback = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query(
-                    'INSERT INTO Feedback(id, topic_id, user_id, text, date_created, adapter_direction ) values(?,?,?,?,?,?)',
-                    [
-                        req.body.id,
-                        req.body.topic_id,
-                        req.body.user_id,
-                        req.body.text,
-                        req.body.date_created,
-                        req.body.adapter_direction
-                    ],
-                    (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
+    const updateFeedback = (params) => {
+        const { feedbackId, updatedFields } = params
+        
+        return (
+            Feedback.update(
+                { updatedFields },
+                { where: { id: feedbackId } }
+            )
+            .then(feedbacks => {
+                console.log('All Feedbacks:', JSON.stringify(feedbacks, null, 4));
+                return feedbacks
+            })
+        )
     }
-    const updateFeedback = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                connection.query('UPDATE Feedback SET text= ? WHERE id=?',
-                    [req.body.text, req.body.id], (err, rows) => {
-                        res.end(JSON.stringify(rows));
-                        connection.release();
-                    })
-            }
-        })
+    const deleteFeedback = (params) => {
+        const { feedbackId } = params
+        
+        return (
+            Feedback.destroy({
+                where: {
+                    id: feedbackId
+                }
+            })
+            .then(feedbacks => {
+                console.log('Feedback deleted correctly');
+                return feedbacks
+            })
+        )
     }
-    const deleteFeedback = (req, res) => {
-        pool.getConnection(function (error, connection) {
-            if (error) {
-                connection.release();
-            } else {
-                var queryString = 'DELETE FROM Feedback WHERE id = ?';
-                connection.query(queryString, [req.body.id], (err, rows, fields) => {
-                    res.end(JSON.stringify(rows));
-                    connection.release();
-                })
-            }
-        })
-    }
+
     return {
         fetchCourses,
-        fetchCoursesById,
-        createCourses,
-        updateCourses,
-        deleteCourses,
+        fetchCourseById,
+        fetchCoursesByLanguage,
+        createCourse,
+        updateCourse,
+        deleteCourse,
+
         fetchTopics,
-        createTopics,
-        updateTopics,
-        deleteTopics,
+        fetchTopicsById,
+        fetchTopicsByCourse,
+        fetchTopicsByLanguage,
+        createTopic,
+        updateTopic,
+        deleteTopic,
+
         fetchUsers,
-        createUsers,
-        updateUsers,
-        deleteUsers,
+        createUser,
+        updateUser,
+        deleteUser,
+        
         fetchFeedback,
         createFeedback,
-        updateFeedback,
         deleteFeedback,
+        updateFeedback,
     };
+
 })();

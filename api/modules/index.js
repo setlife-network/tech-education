@@ -1,4 +1,4 @@
-var apiModules = module.exports = (function() {
+const apiModules = module.exports = (function() {
     return {
         crud: require('./crud')
     };
